@@ -21,20 +21,20 @@ export const useTasksStore = create<ITasksStore>()((set, get) => ({
    id: 0,
    incId: () => set(state => ({id: state.id + 1})),
    remove: (id) => {
-      const activeId = get().activeId
+      // const activeId = get().activeId
       set(state => ({
          tasks: state.tasks.filter(task => task.id !== id)
       }))
-      if(activeId === id){
-         get().setActiveId(-1)
-      }
+      // if(activeId === id){
+      //    get().setActiveId(-1)
+      // }
    },
    add: (task) => {
       const id = get().id
       set(state => ({
          tasks: [...state.tasks, {...task, id: id, fresh: false}]
       }))
-      get().setActiveId(id)
+      // get().setActiveId(id)
       get().incId()
    },
    update: (id, item) => {
@@ -49,20 +49,7 @@ export const useTasksStore = create<ITasksStore>()((set, get) => ({
       }))
    })),
    incCount: (id) => {
-      const tasks = get().tasks
-      let task = tasks.filter(task => task.id === id)[0] as TaskItem
-      if(task.count.current + 1 == task.count.total){
-         get().update(id, {...task,
-            complete: true,
-            time: {...task.time, current: task.time.total},
-            count: {current: task.count.total, total: task.count.total}
-         })
-      }else{
-         get().update(id, {...task,
-            time: {...task.time, current: task.time.total},
-            count: {current: task.count.current + 1, total: task.count.total}
-         })
-      }
+      return
    },
 }))
 

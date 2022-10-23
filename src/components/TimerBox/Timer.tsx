@@ -6,7 +6,7 @@ import shallow from 'zustand/shallow'
 import { TaskItem } from '../../utils/types'
 
 
-export const TimerItem: React.FC<{task: TaskItem}> = ({task}) => {
+export const Timer: React.FC<{task: TaskItem}> = ({task}) => {
    const [theme, setTheme] = useThemeStore((state) => [state.theme, state.setTheme], shallow)
    const { time, startStop, running, finished } = useTimer(task?.time.current)
 

@@ -4,19 +4,11 @@ import { AddSvg } from '../../utils/svg'
 import { useTasksStore } from '../../stores'
 
 
-const TaskList: React.FC<{
-   openEdit: (id: number) => void, 
-   activeId: number, 
-   setActiveId: (id: number) => void
-}> = ({
-   openEdit, 
-   activeId, 
-   setActiveId
-}) => {
+const TaskList: React.FC<{openEdit: (id: number) => void}> = ({openEdit}) => {
    const tasks = useTasksStore((state) => state.tasks)
 
    return(
-      <div className="w-96">
+      <>
          <Button 
             text="AddTask"
             className="flex items-center justify-center w-full h-14 bg-dark border border-dashed rounded-md text-gray-200 font-normal"
@@ -29,11 +21,10 @@ const TaskList: React.FC<{
                   key={i} 
                   item={item} 
                   openEdit={openEdit} 
-                  activeId={activeId} 
-                  setActiveId={setActiveId}/>
+                  />
             )}
          </div>
-      </div>
+      </>
    )
 }
 export default TaskList

@@ -1,15 +1,18 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { ModalTemplate } from '.'
-import { UpSvg, DownSvg } from '../../utils/svg'
-import { TaskItem } from '../../utils/types'
-import { editDefault } from '../../utils/utils'
-import { useTasksStore } from '../../stores'
+import { UpSvg, DownSvg } from '../utils/svg'
+import { TaskItem } from '../utils/types'
+import { editDefault } from '../utils/utils'
+import { useActiveStore, useTasksStore } from '../stores'
+import shallow from 'zustand/shallow'
 
 
 
 export const EditModal: React.FC<{task: TaskItem, close: () => void}> = ({task, close}) => {
    const addTask = useTasksStore((state) => state.add)
    const updateTask = useTasksStore((state) => state.update)
+   const [activeId, setActiveId] = useActiveStore((state) => [state.activeId, state.setActiveId], shallow)
+   const id = useTasksStore((state) => state.id)
 
 
    //local stuff
@@ -46,7 +49,12 @@ export const EditModal: React.FC<{task: TaskItem, close: () => void}> = ({task, 
          time: {current: {min: time, sec: 0}, total: {min: time,sec: 0}}, 
          count: {current: 0, total: count}
       }
-      edit?.fresh ? addTask(ph) : updateTask(ph.id, ph)
+      if(edit.fresh){
+         addTask(ph)
+         setActiveId(id)
+      }else{
+         updateTask(ph.id, ph)
+      }
       close()
    }
 
@@ -61,7 +69,7 @@ export const EditModal: React.FC<{task: TaskItem, close: () => void}> = ({task, 
             </div>
             
             <div className="flex justify-between bg-gray-300 shadow-lg">
-               {!edit.fresh && <DeleteButton id={edit.id}/>}
+               {!edit.fresh && <DeleteButton id={edit.id} close={close} />}
                <div className='flex w-full h-14 pr-2 justify-end items-center'>
                   <button onClick={close}className="h-9 w-16 mx-1 text-gray-600 text-sm font-medium">
                      Cancel
@@ -109,13 +117,17 @@ const Counter: React.FC<{
 
 
 
-const DeleteButton: React.FC<{id: number}> = ({id}) => {
-   const setEditModal = useMainStore((state) => state.setEditModal)
+const DeleteButton: React.FC<{id: number, close: () => void}> = ({id, close}) => {
+   const tasks = useTasksStore((state) => state.tasks)
    const removeTask = useTasksStore((state) => state.remove)
+   const [activeId, setActiveId] = useActiveStore((state) => [state.activeId, state.setActiveId], shallow)
 
    const handleDelete = () => {
+      if(activeId === id && tasks[0] != undefined){
+         setActiveId(tasks[0].id)
+      }
       removeTask(id)
-      setEditModal(false)
+      close()
    }
 
   return(

@@ -1,5 +1,5 @@
 import { Button } from "../Button"
-import { TimerItem } from './TimerItem'
+import { Timer } from './Timer'
 import shallow from 'zustand/shallow'
 import { useThemeStore, useTimerStore } from "../../stores"
 import { TaskItem } from "../../utils/types"
@@ -36,7 +36,7 @@ const TimerBox: React.FC<{task: TaskItem}> = ({task}) => {
                onClick={() => toggleTheme('theme-blue')}
                />
          </div>
-         <TimerItem task={task}/>
+         <Timer task={task}/>
       </>
    )
 }

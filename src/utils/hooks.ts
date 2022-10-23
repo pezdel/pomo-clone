@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { TaskItem, TimeItem } from './types'
 import { activeDefault, shortDefault, longDefault, editDefault } from './utils'
-import { useMainStore, useTasksStore, useThemeStore, useTimerStore } from '../stores'
+import { useActiveStore, useTasksStore, useThemeStore, useTimerStore } from '../stores'
 import shallow from 'zustand/shallow'
 
 
@@ -54,28 +54,28 @@ export const useTimer = (startTime: TimeItem | undefined) => {
 
 
 
-export const useActiveTask = () => {
-   const theme = useMainStore((state) => state.theme)
-   const activeId = useTasksStore((state) => state.activeId)
-   const tasks = useTasksStore((state) => state.tasks)
-   const [task, setTask] = useState<TaskItem>()
+// export const useActiveTask = () => {
+//    const theme = useMainStore((state) => state.theme)
+//    const activeId = useTasksStore((state) => state.activeId)
+//    const tasks = useTasksStore((state) => state.tasks)
+//    const [task, setTask] = useState<TaskItem>()
 
-   useEffect(() => {
-      if(theme == 'theme-red'){
-         if(activeId == -1){
-            setTask(activeDefault)
-         }else{
-            setTask(tasks.filter(task => task.id === activeId)[0])
-         }
-      }else if(theme == 'theme-teal'){
-         setTask(shortDefault)
-      }else if(theme == 'theme-blue'){
-         setTask(longDefault)
-      }
-   },[activeId, theme, tasks])
+//    useEffect(() => {
+//       if(theme == 'theme-red'){
+//          if(activeId == -1){
+//             setTask(activeDefault)
+//          }else{
+//             setTask(tasks.filter(task => task.id === activeId)[0])
+//          }
+//       }else if(theme == 'theme-teal'){
+//          setTask(shortDefault)
+//       }else if(theme == 'theme-blue'){
+//          setTask(longDefault)
+//       }
+//    },[activeId, theme, tasks])
 
-   return task
-}
+//    return task
+// }
 
 
 export const useSettingHook = () => {
@@ -126,15 +126,13 @@ export const useEditHook = () => {
 }
 
 
+
+
 export const useActiveHook = () => {
    const tasks = useTasksStore((state) => state.tasks)
    const theme = useThemeStore((state) => state.theme)
    const [task, setTask] = useState(activeDefault)
-   const [id, setId] = useState(0)
-
-   const setActiveId = (id: number) => {
-      setId(id)
-   }
+   const [id, setId] = useActiveStore((state) => [state.activeId, state.setActiveId], shallow)
 
    useEffect(() => {
       if(theme == 'theme-red'){
@@ -146,10 +144,7 @@ export const useActiveHook = () => {
       }
    },[id, theme])
 
-   useEffect(() => {
-      console.log(tasks)
-   },[tasks])
 
-   return {activeTask: task, activeId: id, setActiveId: setActiveId}
+   return task 
 }
 
