@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+
+.theme-red {
+   --color-primary: #d95550;
+   --color-light: #dd6662;
+   --color-dark: #bc5753;
+}
+.theme-teal {
+   --color-primary: #4c9195;
+   --color-light: #5e9ca0;
+   --color-dark: #508588;
+}
+.theme-blue {
+   --color-primary: #457ca3;
+   --color-light: #5889ac;
+   --color-dark: #4b7592;
+}
+
+@tailwind utilities;
