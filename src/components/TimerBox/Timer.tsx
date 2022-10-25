@@ -4,9 +4,11 @@ import { useTimer } from '../../utils/hooks'
 import { useTasksStore, useThemeStore } from '../../stores'
 import shallow from 'zustand/shallow'
 import { TaskItem } from '../../utils/types'
+import { useActiveTask } from '../../stores/ActiveStore'
 
 
-export const Timer: React.FC<{task: TaskItem}> = ({task}) => {
+export const Timer: React.FC = () => {
+   const task = useActiveTask()
    const [theme, setTheme] = useThemeStore((state) => [state.theme, state.setTheme], shallow)
    const { time, startStop, running, finished } = useTimer(task?.time.current)
    const incCount = useTasksStore((state) => state.taskDone)

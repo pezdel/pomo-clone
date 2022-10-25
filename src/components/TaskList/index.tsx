@@ -4,18 +4,12 @@ import { AddSvg } from '../../utils/svg'
 import { useTasksStore } from '../../stores'
 import { editDefault } from '../../utils/utils'
 import { TaskItem } from '../../utils/types'
+import { useActiveTask } from '../../stores/ActiveStore'
 
 
-const TaskList: React.FC<{
-   openEdit: (t: TaskItem) => void,
-   activeTask: TaskItem,
-   setActiveId: (id: number) => void,
-}> = ({
-   openEdit,
-   activeTask,
-   setActiveId
-}) => {
+const TaskList: React.FC<{openEdit: (t: TaskItem) => void}> = ({openEdit}) => {
    const tasks = useTasksStore((state) => state.tasks)
+   const activeTask = useActiveTask()
 
    return(
       <>
@@ -36,8 +30,6 @@ const TaskList: React.FC<{
                   key={i} 
                   item={item} 
                   openEdit={openEdit}
-                  activeTask={activeTask}
-                  setActiveId={setActiveId}
                   />
             )}
          </div>

@@ -5,7 +5,7 @@ import { useThemeStore, useTimerStore } from "../../stores"
 import { TaskItem } from "../../utils/types"
 
 
-const TimerBox: React.FC<{task: TaskItem}> = ({task}) => {
+const TimerBox: React.FC = () => {
    const [theme, setTheme] = useThemeStore((state) => [state.theme, state.setTheme], shallow)
    const [running, setRunning] = useTimerStore((state) => [state.running, state.setRunning], shallow)
 
@@ -36,7 +36,7 @@ const TimerBox: React.FC<{task: TaskItem}> = ({task}) => {
                onClick={() => toggleTheme('theme-blue')}
                />
          </div>
-         <Timer task={task}/>
+         <Timer />
       </>
    )
 }

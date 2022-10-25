@@ -102,21 +102,17 @@ export const useActiveTask = (): [TaskItem, (id: number) => void] => {
    const [_task, _setTask] = useState(activeDefault)
    const [task, setTask] = useState(activeDefault)
    const theme = useThemeStore((state) => state.theme)
-   const [activeId, _setActiveId] = useState(0)
+
 
    const setActiveId = (id: number) => {
-      _setActiveId(id)
-   }
-   useEffect(() => {
-      console.log(tasks)
-      const t = tasks.filter(task => task.id === activeId)[0]
+      const t = tasks.filter(task => task.id === id)[0]
       if(t != undefined){
          _setTask(t)
          if(theme == 'theme-red'){
             setTask(t)
          }
       }
-   },[activeId, tasks])
+   }
 
 
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { ModalTemplate } from '..'
 import { UpSvg, DownSvg } from '../../utils/svg'
 import { TaskItem } from '../../utils/types'
-import { useTasksStore, useIdStore } from '../../stores'
+import { useTasksStore, useIdStore, useActiveStore } from '../../stores'
 import { useEditTask } from './hooks'
 import { Button } from '../../components/Button'
 import shallow from 'zustand/shallow'
@@ -12,16 +12,15 @@ import shallow from 'zustand/shallow'
 export const EditModal: React.FC<{
    editTask: TaskItem, 
    close: () => void
-   setActiveId: (id: number) => void
 }> = ({
    editTask, 
    close,
-   setActiveId
 }) => {
    const { task, setName, timeItem, countItem } = useEditTask(editTask)
    const addTask = useTasksStore((state) => state.add)
    const updateTask = useTasksStore((state) => state.update)
    const [id, setId] = useIdStore((state) => [state.id, state.setId], shallow)
+   const setActiveId = useActiveStore((state) => state.setActiveId)
 
 
    const handleSubmit = () => {
