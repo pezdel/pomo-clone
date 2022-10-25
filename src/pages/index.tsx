@@ -3,9 +3,8 @@ import Navbar from "../components/Navbar";
 import TimerBox from "../components/TimerBox";
 import TaskList from "../components/TaskList";
 import { SettingModal, EditModal } from '../Modal'
-import { useEditModal, useSettingModal } from '../utils/hooks'
+import { useEditModal, useSettingModal } from "../hooks";
 import { useThemeStore } from '../stores'
-
 
 
 const Home: NextPage = () => {
