@@ -1,7 +1,7 @@
 import { Button } from '../Button'
 import { useEffect } from 'react'
 import { useTimer } from '../../utils/hooks'
-import { useThemeStore } from '../../stores'
+import { useTasksStore, useThemeStore } from '../../stores'
 import shallow from 'zustand/shallow'
 import { TaskItem } from '../../utils/types'
 
@@ -9,11 +9,12 @@ import { TaskItem } from '../../utils/types'
 export const Timer: React.FC<{task: TaskItem}> = ({task}) => {
    const [theme, setTheme] = useThemeStore((state) => [state.theme, state.setTheme], shallow)
    const { time, startStop, running, finished } = useTimer(task?.time.current)
+   const incCount = useTasksStore((state) => state.taskDone)
 
    useEffect(() => {
       if(finished){
          if(!task) return
-         // incCount(activeTask.id)
+         incCount(task.id)
          setTheme('theme-teal')
       }
    },[finished])
@@ -21,7 +22,7 @@ export const Timer: React.FC<{task: TaskItem}> = ({task}) => {
    useEffect(() => {
       if(!running && theme == 'theme-red' && time.min != 0){
          if(!task) return
-         // incCount(activeTask.id)
+         incCount(task.id)
       }
    },[running])
    

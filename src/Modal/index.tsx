@@ -1,5 +1,5 @@
-import { SettingModal } from "./SettingModal";
-import { EditModal } from "./EditModal";
+import { SettingModal } from "./settingM/SettingModal";
+import { EditModal } from "./editM/EditModal";
 export { SettingModal, EditModal }
 
 

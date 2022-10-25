@@ -3,16 +3,16 @@ import Navbar from "../components/Navbar";
 import TimerBox from "../components/TimerBox";
 import TaskList from "../components/TaskList";
 import { SettingModal, EditModal } from '../Modal'
-import { useEditHook, useSettingHook, useActiveHook } from '../utils/hooks'
-import { useThemeStore } from '../stores'
+import { useActiveTask, useEditModal, useSettingModal } from '../utils/hooks'
+import {  useThemeStore } from '../stores'
 
 
 
 const Home: NextPage = () => {
    const theme = useThemeStore((state) => state.theme)
-   const { settingModal, openSetting, closeSetting } = useSettingHook()
-   const { editModal, openEdit, closeEdit, editTask } = useEditHook()
-   const activeTask = useActiveHook()
+   const { settingModal, openSetting, closeSetting } = useSettingModal()
+   const { editTask, openEdit, closeEdit, editModal } = useEditModal()
+   const [activeTask, setActiveId] = useActiveTask()
 
 
    return (
@@ -26,11 +26,11 @@ const Home: NextPage = () => {
                   <TimerBox task={activeTask} />
                </div>
                <div className='w-96'>
-                  <TaskList openEdit={openEdit} />
+                  <TaskList openEdit={openEdit} activeTask={activeTask} setActiveId={setActiveId} />
                </div>
             </div>
          </div>
-         {editModal && <EditModal task={editTask} close={closeEdit} />}
+         {editModal && <EditModal editTask={editTask} close={closeEdit} setActiveId={setActiveId} />}
          {settingModal && <SettingModal close={closeSetting}/>}
       </div>
    );

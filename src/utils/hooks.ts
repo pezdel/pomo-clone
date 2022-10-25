@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction, useLayoutEffect } from 'react'
 import { TaskItem, TimeItem } from './types'
-import { activeDefault, shortDefault, longDefault, editDefault } from './utils'
-import { useActiveStore, useTasksStore, useThemeStore, useTimerStore } from '../stores'
+import { activeDefault, shortDefault, longDefault } from './utils'
+import { useEditStore, useTasksStore, useThemeStore, useTimerStore } from '../stores'
 import shallow from 'zustand/shallow'
 
 
@@ -54,31 +54,8 @@ export const useTimer = (startTime: TimeItem | undefined) => {
 
 
 
-// export const useActiveTask = () => {
-//    const theme = useMainStore((state) => state.theme)
-//    const activeId = useTasksStore((state) => state.activeId)
-//    const tasks = useTasksStore((state) => state.tasks)
-//    const [task, setTask] = useState<TaskItem>()
 
-//    useEffect(() => {
-//       if(theme == 'theme-red'){
-//          if(activeId == -1){
-//             setTask(activeDefault)
-//          }else{
-//             setTask(tasks.filter(task => task.id === activeId)[0])
-//          }
-//       }else if(theme == 'theme-teal'){
-//          setTask(shortDefault)
-//       }else if(theme == 'theme-blue'){
-//          setTask(longDefault)
-//       }
-//    },[activeId, theme, tasks])
-
-//    return task
-// }
-
-
-export const useSettingHook = () => {
+export const useSettingModal = () => {
    const [modal, setModal] = useState(false)
 
    const handleOpen = () => {
@@ -93,58 +70,67 @@ export const useSettingHook = () => {
 
 
 
-export const useEditHook = () => {
-   const tasks = useTasksStore((state) => state.tasks)
-   const [task, setTask] = useState(editDefault)
+
+
+export const useEditModal = () => {
+   const [editTask, setEditTask] = useEditStore((state) => [state.editTask, state.setEditTask], shallow)
    const [modal, setModal] = useState(false)
-   const [id, setId] = useState(-1)
 
-   const handleOpen = (id: number) => {
+   const handleOpen = (t: TaskItem) => {
+      setEditTask(t)
       setModal(true)
-      setId(id)
    }
-
    const handleClose = () => {
       setModal(false)
    }
 
-   useEffect(() => {
-      if(id == -1){
-         setTask(editDefault)
-      }else{
-         setTask(tasks.filter(task => task.id === id)[0] as TaskItem) 
-      }
-   },[id, tasks])
-
-
    return {
-      editTask: task, 
+      editTask: editTask,
       editModal: modal, 
       openEdit: handleOpen, 
-      closeEdit: handleClose, 
+      closeEdit: handleClose,
    }
 }
 
 
 
 
-export const useActiveHook = () => {
+
+
+export const useActiveTask = (): [TaskItem, (id: number) => void] => {
    const tasks = useTasksStore((state) => state.tasks)
-   const theme = useThemeStore((state) => state.theme)
+   const [_task, _setTask] = useState(activeDefault)
    const [task, setTask] = useState(activeDefault)
-   const [id, setId] = useActiveStore((state) => [state.activeId, state.setActiveId], shallow)
+   const theme = useThemeStore((state) => state.theme)
+   const [activeId, _setActiveId] = useState(0)
+
+   const setActiveId = (id: number) => {
+      _setActiveId(id)
+   }
+   useEffect(() => {
+      console.log(tasks)
+      const t = tasks.filter(task => task.id === activeId)[0]
+      if(t != undefined){
+         _setTask(t)
+         if(theme == 'theme-red'){
+            setTask(t)
+         }
+      }
+   },[activeId, tasks])
+
+
 
    useEffect(() => {
       if(theme == 'theme-red'){
-         id == -1 ? setTask(activeDefault) : setTask(tasks.filter(task => task.id === id)[0] as TaskItem)
-      }else if (theme == 'theme-teal'){
+         setTask(_task)
+      }else if(theme == 'theme-teal'){
          setTask(shortDefault)
-      }else if (theme == 'theme-blue'){
+      }else if(theme == 'theme-blue'){
          setTask(longDefault)
       }
-   },[id, theme])
+   },[theme])
 
 
-   return task 
+   return [task, setActiveId]
 }
 

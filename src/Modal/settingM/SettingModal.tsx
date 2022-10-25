@@ -1,4 +1,4 @@
-import { ModalTemplate } from "."
+import { ModalTemplate } from "../index"
 
 export const SettingModal: React.FC<{close: () => void}> = ({close}) => {
 
