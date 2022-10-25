@@ -1,6 +1,6 @@
 import create from 'zustand'
-import { TaskItem } from '../utils/types';
-import { editDefault } from '../utils/utils';
+import { TaskItem } from '../../utils/types';
+import { editDefault } from '../../utils/utils';
 
 
 export interface IEditStore{

@@ -1,8 +1,7 @@
 import create from 'zustand'
-import type { TaskItem } from '../utils/types'
-import { sampleList } from '../utils/utils'
+import type { TaskItem } from '../../utils/types'
+import { sampleList } from '../../utils/utils'
 // import { useActiveStore } from './ActiveStore'
-import { useIdStore } from './IdStore'
 
 
 
