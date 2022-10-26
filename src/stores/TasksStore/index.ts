@@ -1,7 +1,8 @@
 import create from 'zustand'
 import type { TaskItem } from '../../utils/types'
 import { sampleList } from '../../utils/utils'
-// import { useActiveStore } from './ActiveStore'
+import { useActiveStore } from '../ActiveStore'
+import { useIdStore } from '../IdStore'
 
 
 
@@ -22,21 +23,20 @@ type Actions = {
 
 export const useTasksStore = create<State & Actions>()((set, get) => ({
    tasks: sampleList,
-   remove: (id) => {
-      set(state => ({
-         tasks: state.tasks.filter(task => task.id !== id)
-      }))
-   },
+   remove: (id) => set(state => ({
+      tasks: state.tasks.filter(task => task.id !== id)
+   })),
    add: (task) => {
+      const id = useIdStore.getState().id
       set(state => ({
-         tasks: [...state.tasks, task]
+         tasks: [...state.tasks, {...task, id: id, fresh: false}]
       }))
+      useActiveStore.getState().setActiveId(id)
+      useIdStore.getState().setId()
    },
-   update: (id, item) => {
-      set(state => ({
-         tasks: state.tasks.map(task => task.id === id ? item : task)
-      }))
-   },
+   update: (id, item) => set(state => ({
+      tasks: state.tasks.map(task => task.id === id ? item : task)
+   })),
    toggleComplete: (id) => set(state => ({
       tasks: state.tasks.map(task => ({
          ...task,

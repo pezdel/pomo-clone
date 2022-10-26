@@ -3,9 +3,13 @@ import Navbar from "../components/Navbar";
 import TimerBox from "../components/TimerBox";
 import TaskList from "../components/TaskList";
 import { SettingModal, EditModal } from '../Modal'
-import { useEditModal, useSettingModal, useEditTask } from "../hooks";
+import { useEditModal, useSettingModal } from "../hooks";
 import { useThemeStore } from '../stores'
 
+//so plan for today is to finish 
+//--store/hooks from yesterday get them working up to our standard
+//--refactor timer / the hook we use for that 
+//--start in on setting modal and figure that part out
 
 const Home: NextPage = () => {
    const theme = useThemeStore((state) => state.theme)

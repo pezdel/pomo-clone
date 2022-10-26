@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react'
 import type { TaskItem } from '../../utils/types'
 import { useEditStore, useTasksStore } from "../../stores"
 import { editDefault } from '../../utils/utils'
+import shallow from 'zustand/shallow'
 
 
 
-export const useEditTask = () => {
+export const useEditTask = (close: () => void) => {
    const [task, setTask] = useState(editDefault)
    const tasks = useTasksStore((state) => state.tasks)
    const editId = useEditStore((state) => state.editId)
+   const { addTask, updateTask } = useTasksStore((state) => ({addTask: state.add, updateTask: state.update}), shallow)
    
 
    useEffect(() => {
@@ -43,6 +45,15 @@ export const useEditTask = () => {
          setTask({...task, count: {...task.count, total: task.count.total - 1}})
       }
    }
+   function submit() {
+      if(task.fresh){
+         addTask(task)
+      }else{
+         updateTask(task.id, task)
+      }
+      close()
+   }
+
 
    return {
       task: task,
@@ -57,6 +68,7 @@ export const useEditTask = () => {
          dec: decCount,
          val: task.count.total
       },
+      submit: submit
    }
 }
 

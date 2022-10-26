@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import { ModalTemplate } from '..'
+import React from 'react'
+import { ModalTemplate } from '../template'
 import { UpSvg, DownSvg } from '../../utils/svg'
-import { useTasksStore, useIdStore, useActiveStore } from '../../stores'
+import { useTasksStore, useActiveStore } from '../../stores'
 import { useEditTask } from "../../hooks";
 import { Button } from '../../components/Button'
 import shallow from 'zustand/shallow'
@@ -9,23 +9,7 @@ import shallow from 'zustand/shallow'
 
 
 export const EditModal: React.FC<{close: () => void}> = ({close}) => {
-   const { task, setName, timeItem, countItem } = useEditTask()
-   const addTask = useTasksStore((state) => state.add)
-   const updateTask = useTasksStore((state) => state.update)
-   const [id, setId] = useIdStore((state) => [state.id, state.setId], shallow)
-   const setActiveId = useActiveStore((state) => state.setActiveId)
-
-
-   const handleSubmit = () => {
-      if(task.fresh){
-         addTask({...task, id: id, fresh: false})
-         setActiveId(id)
-         setId()
-      }else{
-         updateTask(task.id, task)
-      }
-      close()
-   }
+   const { task, setName, timeItem, countItem, submit } = useEditTask(close)
 
    return(
       <ModalTemplate close={close}>
@@ -47,7 +31,7 @@ export const EditModal: React.FC<{close: () => void}> = ({close}) => {
                      />
                   <Button 
                      className="h-8 w-16 mx-1 bg-gray-800 text-gray-200 rounded-lg text-sm font-normal hover:bg-gray-900"
-                     onClick={handleSubmit}
+                     onClick={submit}
                      text="Save"
                      />
                </div>
@@ -117,3 +101,24 @@ const DeleteButton: React.FC<{id: number, close: () => void}> = ({id, close}) =>
       </div>
    )
 }
+
+
+
+
+// const handleSubmit = () => {
+   //    if(task.fresh){
+   //       addTask({...task, id: id, fresh: false})
+   //       setActiveId(id)
+   //       setId()
+   //    }else{
+   //       updateTask(task.id, task)
+   //    }
+   //    close()
+   // }
+
+
+   // const { addTask, updateTask } = useTasksStore((state) => ({addTask: state.add, updateTask: state.update}), shallow)
+   // const [id, setId] = useIdStore((state) => [state.id, state.setId], shallow)
+   // const setActiveId = useActiveStore((state) => state.setActiveId)
+
+

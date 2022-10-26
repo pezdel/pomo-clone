@@ -1,7 +1,8 @@
-import { ModalTemplate } from "../index"
+import { ModalTemplate } from '../template'
+
+
 
 export const SettingModal: React.FC<{close: () => void}> = ({close}) => {
-
    return(
       <ModalTemplate close={close}>
          <div className='h-96 w-60 border-2 bg-dark'>
@@ -10,3 +11,4 @@ export const SettingModal: React.FC<{close: () => void}> = ({close}) => {
       </ModalTemplate>
    )
 }
+
