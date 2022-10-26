@@ -1,22 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ModalTemplate } from '..'
 import { UpSvg, DownSvg } from '../../utils/svg'
-import { TaskItem } from '../../utils/types'
 import { useTasksStore, useIdStore, useActiveStore } from '../../stores'
-import { useEditTask } from './hooks'
+import { useEditTask } from "../../hooks";
 import { Button } from '../../components/Button'
 import shallow from 'zustand/shallow'
 
 
 
-export const EditModal: React.FC<{
-   editTask: TaskItem, 
-   close: () => void
-}> = ({
-   editTask, 
-   close,
-}) => {
-   const { task, setName, timeItem, countItem } = useEditTask(editTask)
+export const EditModal: React.FC<{close: () => void}> = ({close}) => {
+   const { task, setName, timeItem, countItem } = useEditTask()
    const addTask = useTasksStore((state) => state.add)
    const updateTask = useTasksStore((state) => state.update)
    const [id, setId] = useIdStore((state) => [state.id, state.setId], shallow)
@@ -33,7 +26,6 @@ export const EditModal: React.FC<{
       }
       close()
    }
-   
 
    return(
       <ModalTemplate close={close}>
@@ -66,9 +58,14 @@ export const EditModal: React.FC<{
 }
 
 
-
-const Counter: React.FC<{item: Item, type: string}> = ({item, type}) => {
-
+interface IncDec {
+  inc: () => void;
+  dec: () => void;
+  val: number
+}
+const Counter: React.FC<{item: IncDec, type: string}> = ({item, type}) => {
+   
+   
    return(
       <>
          <div className="flex flex-col w-24 h-28 justify-between py-1.5">

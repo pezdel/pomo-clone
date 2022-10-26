@@ -1,10 +1,9 @@
 import { Button } from '../Button'
 import { useEffect } from 'react'
-import { useTimer } from '../../utils/hooks'
+import { useTimer } from '../../hooks'
 import { useTasksStore, useThemeStore } from '../../stores'
 import shallow from 'zustand/shallow'
-import { TaskItem } from '../../utils/types'
-import { useActiveTask } from '../../stores/ActiveStore'
+import { useActiveTask } from '../../hooks'
 
 
 export const Timer: React.FC = () => {

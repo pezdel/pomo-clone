@@ -5,7 +5,7 @@ import { useTasksStore, useActiveStore } from '../../stores'
 import shallow from 'zustand/shallow'
 
 
-export const TaskListItem: React.FC<{item: TaskItem, openEdit: (t: TaskItem) => void}> = ({item, openEdit}) => {
+export const TaskListItem: React.FC<{item: TaskItem, openEdit: (id: number) => void}> = ({item, openEdit}) => {
    const [activeId, setActiveId] = useActiveStore((state) => [state.activeId, state.setActiveId], shallow)
    const toggleComplete = useTasksStore((state) => state.toggleComplete)
 
@@ -27,7 +27,7 @@ export const TaskListItem: React.FC<{item: TaskItem, openEdit: (t: TaskItem) => 
          </div>
 
          <Button 
-            onClick={() => openEdit(item)}
+            onClick={() => openEdit(item.id)}
             svg={<MenuSvg />}
             />
       </div>

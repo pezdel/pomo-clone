@@ -3,14 +3,14 @@ import Navbar from "../components/Navbar";
 import TimerBox from "../components/TimerBox";
 import TaskList from "../components/TaskList";
 import { SettingModal, EditModal } from '../Modal'
-import { useEditModal, useSettingModal } from "../hooks";
+import { useEditModal, useSettingModal, useEditTask } from "../hooks";
 import { useThemeStore } from '../stores'
 
 
 const Home: NextPage = () => {
    const theme = useThemeStore((state) => state.theme)
    const { settingModal, openSetting, closeSetting } = useSettingModal()
-   const { editTask, openEdit, closeEdit, editModal } = useEditModal()
+   const { openEdit, closeEdit, editModal } = useEditModal()
 
    return (
       <div className={theme}>
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
                </div>
             </div>
          </div>
-         {editModal && <EditModal editTask={editTask} close={closeEdit} />}
+         {editModal && <EditModal close={closeEdit} />}
          {settingModal && <SettingModal close={closeSetting}/>}
       </div>
    );

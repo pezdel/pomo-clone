@@ -2,8 +2,6 @@ import { TaskItem } from "./types"
 
 
 export const sampleList: TaskItem[] = [
-   // {id: 99, name: "clean", currCount: 0, count: 3, currTime: 30, time: 30, complete: false,  fresh: false},
-   // {id: 98, name: "study", currCount: 0, count: 15, currTime: 45, time: 45, complete: false, fresh: false},
 ]
 
 

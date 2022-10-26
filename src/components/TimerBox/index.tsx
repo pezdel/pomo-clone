@@ -2,7 +2,6 @@ import { Button } from "../Button"
 import { Timer } from './Timer'
 import shallow from 'zustand/shallow'
 import { useThemeStore, useTimerStore } from "../../stores"
-import { TaskItem } from "../../utils/types"
 
 
 const TimerBox: React.FC = () => {
