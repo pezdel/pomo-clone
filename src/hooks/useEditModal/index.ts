@@ -7,6 +7,7 @@ export const useEditModal = () => {
    const setEditId = useEditStore((state) => state.setEditId)
 
    const handleOpen = (id: number) => {
+      console.log(id)
       setEditId(id)
       setModal(true)
    }

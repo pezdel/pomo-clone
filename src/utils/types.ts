@@ -11,3 +11,10 @@ export interface TaskItem {
    complete: boolean;
    fresh: boolean;
 }
+
+
+export interface IncDec {
+  inc: () => void;
+  dec: () => void;
+  val: number
+}

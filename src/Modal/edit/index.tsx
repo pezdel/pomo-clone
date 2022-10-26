@@ -1,15 +1,37 @@
 import React from 'react'
 import { ModalTemplate } from '../template'
 import { UpSvg, DownSvg } from '../../utils/svg'
-import { useTasksStore, useActiveStore } from '../../stores'
+import { useTasksStore, useActiveStore, useEditStore } from '../../stores'
 import { useEditTask } from "../../hooks";
 import { Button } from '../../components/Button'
+import { IncDec } from '../../utils/types';
 import shallow from 'zustand/shallow'
 
 
+const useCountItem = () => {
+   const { task, incCount, decCount } = useEditStore()
 
+   return{
+      inc: incCount,
+      dec: decCount,
+      val: task.count.total
+   }
+}
+const useTimeItem = () => {
+   const { task, incTime, decTime } = useEditStore()
+
+   return{
+      inc: incTime,
+      dec: decTime,
+      val: task.time.total.min
+   }
+}
 export const EditModal: React.FC<{close: () => void}> = ({close}) => {
-   const { task, setName, timeItem, countItem, submit } = useEditTask(close)
+   // const { task, setName, timeItem, countItem, submit } = useEditTask(close)
+   const { task, setName, submit } = useEditStore()
+   const countItem = useCountItem()
+   const timeItem = useTimeItem()
+   
 
    return(
       <ModalTemplate close={close}>
@@ -31,7 +53,7 @@ export const EditModal: React.FC<{close: () => void}> = ({close}) => {
                      />
                   <Button 
                      className="h-8 w-16 mx-1 bg-gray-800 text-gray-200 rounded-lg text-sm font-normal hover:bg-gray-900"
-                     onClick={submit}
+                     onClick={() => submit(close)}
                      text="Save"
                      />
                </div>
@@ -42,14 +64,8 @@ export const EditModal: React.FC<{close: () => void}> = ({close}) => {
 }
 
 
-interface IncDec {
-  inc: () => void;
-  dec: () => void;
-  val: number
-}
+
 const Counter: React.FC<{item: IncDec, type: string}> = ({item, type}) => {
-   
-   
    return(
       <>
          <div className="flex flex-col w-24 h-28 justify-between py-1.5">
@@ -101,24 +117,3 @@ const DeleteButton: React.FC<{id: number, close: () => void}> = ({id, close}) =>
       </div>
    )
 }
-
-
-
-
-// const handleSubmit = () => {
-   //    if(task.fresh){
-   //       addTask({...task, id: id, fresh: false})
-   //       setActiveId(id)
-   //       setId()
-   //    }else{
-   //       updateTask(task.id, task)
-   //    }
-   //    close()
-   // }
-
-
-   // const { addTask, updateTask } = useTasksStore((state) => ({addTask: state.add, updateTask: state.update}), shallow)
-   // const [id, setId] = useIdStore((state) => [state.id, state.setId], shallow)
-   // const setActiveId = useActiveStore((state) => state.setActiveId)
-
-

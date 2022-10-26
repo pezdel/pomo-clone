@@ -6,6 +6,15 @@ import shallow from 'zustand/shallow'
 import { useActiveTask } from '../../hooks'
 
 
+
+
+//things I dont like
+//the abstractions causing multiple copies
+//we get the active task inside useActive task
+//and pass it to useTimer which creates another copy I think
+
+//ideally we get the task when id changes and just attach methods to it
+
 export const Timer: React.FC = () => {
    const task = useActiveTask()
    const [theme, setTheme] = useThemeStore((state) => [state.theme, state.setTheme], shallow)

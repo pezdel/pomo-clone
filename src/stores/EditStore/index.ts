@@ -1,12 +1,10 @@
+import { useIdStore, IdStore } from "./editId";
+import { useTaskStore, TaskStore } from './editTask'
 import create from 'zustand'
 
+export type StoreType = IdStore & TaskStore
 
-export interface IEditStore{
-   editId: number; 
-   setEditId: (t: number) => void;
-}
-
-export const useEditStore = create<IEditStore>()((set) => ({
-   editId: 0,
-   setEditId: (t) => set({editId: t}),
-})) 
+export const useEditStore = create<StoreType>()((...a) => ({
+   ...useIdStore(...a),
+   ...useTaskStore(...a)
+}))

@@ -1,26 +1,52 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import type { TaskItem } from '../../utils/types'
 import { useEditStore, useTasksStore } from "../../stores"
 import { editDefault } from '../../utils/utils'
 import shallow from 'zustand/shallow'
 
 
+type setState = Dispatch<SetStateAction<TaskItem>>
 
 export const useEditTask = (close: () => void) => {
-   const [task, setTask] = useState(editDefault)
+   // const [task, setTask] = useState(editDefault)
+   const editTask = useEditMethods()
    const tasks = useTasksStore((state) => state.tasks)
    const editId = useEditStore((state) => state.editId)
-   const { addTask, updateTask } = useTasksStore((state) => ({addTask: state.add, updateTask: state.update}), shallow)
    
 
    useEffect(() => {
       if(editId == -1){
-         setTask(editDefault)
+         editTask.set(editDefault)
       }else{
-         setTask(tasks.find(task => task.id === editId) as TaskItem)
+         editTask.set(tasks.find(task => task.id === editId) as TaskItem)
       }
    },[editId])
+   
 
+
+   return {
+      task: editTask.get,
+      setName: editTask.setName,
+      timeItem: {
+         inc: editTask.incTime, 
+         dec: editTask.decTime,
+         val: editTask.task.time.total.min, 
+      },
+      countItem: {
+         inc: editTask.incCount, 
+         dec: editTask.decCount,
+         val: editTask.task.count.total
+      },
+      submit: editTask.submit
+   }
+}
+
+
+
+
+export const useEditMethods = () => {
+   const [task, setTask] = useState(editDefault)
+   const { addTask, updateTask } = useTasksStore((state) => ({addTask: state.add, updateTask: state.update}), shallow)
 
    function setName(s: string) {
     setTask({...task, name: s})
@@ -53,24 +79,4 @@ export const useEditTask = (close: () => void) => {
       }
       close()
    }
-
-
-   return {
-      task: task,
-      setName: setName,
-      timeItem: {
-         inc: incTime, 
-         dec: decTime,
-         val: task.time.total.min, 
-      },
-      countItem: {
-         inc: incCount, 
-         dec: decCount,
-         val: task.count.total
-      },
-      submit: submit
-   }
 }
-
-
-
