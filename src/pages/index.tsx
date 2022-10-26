@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Navbar from "../components/Navbar";
 import TimerBox from "../components/TimerBox";
 import TaskList from "../components/TaskList";
-import { SettingModal, EditModal } from '../Modal'
+import { SettingModal, EditModal } from '../components/Modal/'
 import { useEditModal, useSettingModal } from "../hooks";
 import { useThemeStore } from '../stores'
 

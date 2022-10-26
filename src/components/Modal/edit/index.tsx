@@ -1,31 +1,14 @@
 import React from 'react'
-import { ModalTemplate } from '../template'
-import { UpSvg, DownSvg } from '../../utils/svg'
-import { useTasksStore, useActiveStore, useEditStore } from '../../stores'
-import { useEditTask } from "../../hooks";
-import { Button } from '../../components/Button'
-import { IncDec } from '../../utils/types';
+import { ModalTemplate } from '..'
+import { UpSvg, DownSvg } from '../../../utils/svg'
+import { useTasksStore, useActiveStore, useEditStore, useCountItem, useTimeItem } from '../../../stores'
+import { Button } from '../../Button'
+import { IncDec } from '../../../utils/types';
 import shallow from 'zustand/shallow'
 
 
-const useCountItem = () => {
-   const { task, incCount, decCount } = useEditStore()
 
-   return{
-      inc: incCount,
-      dec: decCount,
-      val: task.count.total
-   }
-}
-const useTimeItem = () => {
-   const { task, incTime, decTime } = useEditStore()
 
-   return{
-      inc: incTime,
-      dec: decTime,
-      val: task.time.total.min
-   }
-}
 export const EditModal: React.FC<{close: () => void}> = ({close}) => {
    // const { task, setName, timeItem, countItem, submit } = useEditTask(close)
    const { task, setName, submit } = useEditStore()

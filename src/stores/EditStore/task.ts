@@ -7,7 +7,6 @@ import { useTasksStore } from '../TasksStore';
 
 export interface TaskStore{
    task: TaskItem; 
-   setTask: () => void;
    setName: (n: string) => void;
    incTime: () => void;
    decTime: () => void;
@@ -19,7 +18,6 @@ export interface TaskStore{
 
 export const useTaskStore: StateCreator<StoreType, [], [], TaskStore> = (set, get) => ({
   task: editDefault,
-  setTask: () =>  {return},
   setName: (n) => {
     set(state => ({task: {...state.task, name: n}}))
   },
