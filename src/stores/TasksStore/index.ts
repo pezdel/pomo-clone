@@ -2,7 +2,7 @@ import create from 'zustand'
 import type { TaskItem } from '../../utils/types'
 import { sampleList } from '../../utils/utils'
 import { useActiveStore } from '../ActiveStore'
-import { useIdStore } from '../IdStore'
+import { useMainStore } from '../MainStore'
 
 
 
@@ -22,12 +22,12 @@ export const useTasksStore = create<TaskStore>()((set, get) => ({
       tasks: state.tasks.filter(task => task.id !== id)
    })),
    add: (task) => {
-      const id = useIdStore.getState().id
+      const id = useMainStore.getState().id
       set(state => ({
          tasks: [...state.tasks, {...task, id: id, fresh: false}]
       }))
       useActiveStore.getState().setActiveId(id)
-      useIdStore.getState().setId()
+      useMainStore.getState().setId()
    },
    update: (id, item) => set(state => ({
       tasks: state.tasks.map(task => task.id === id ? item : task)

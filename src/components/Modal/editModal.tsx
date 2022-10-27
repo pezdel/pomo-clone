@@ -1,7 +1,7 @@
 import React from 'react'
 import { ModalTemplate } from '../utils'
 import { UpSvg, DownSvg } from '../../utils/svg'
-import { useTasksStore, useActiveStore, useEditStore, useCountItem, useTimeItem } from '../../stores'
+import { useTasksStore, useActiveStore, useEditStore, useCountItem, useTimeItem, useMainStore } from '../../stores'
 import { Button } from '../utils'
 import { IncDec } from '../../utils/types';
 import shallow from 'zustand/shallow'
@@ -9,9 +9,9 @@ import shallow from 'zustand/shallow'
 
 
 
-export const EditModal: React.FC<{close: () => void}> = ({close}) => {
-   // const { task, setName, timeItem, countItem, submit } = useEditTask(close)
+export const EditModal: React.FC = () => {
    const { task, setName, submit } = useEditStore()
+   const setEditModal = useMainStore((state) => state.setEditModal)
    const countItem = useCountItem()
    const timeItem = useTimeItem()
    
@@ -31,7 +31,7 @@ export const EditModal: React.FC<{close: () => void}> = ({close}) => {
                <div className='flex w-full h-14 pr-2 justify-end items-center'>
                   <Button 
                      className="h-9 w-16 mx-1 text-gray-600 text-sm font-medium"
-                     onClick={close}
+                     onClick={() => setEditModal(false)}
                      text="Cancel"
                      />
                   <Button 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { TaskItem } from '../../utils/types';
 import { activeDefault, longDefault, shortDefault } from '../../utils/utils';
-import { useTasksStore, useThemeStore, useActiveStore } from '../../stores'
+import { useTasksStore, useMainStore, useActiveStore } from '../../stores'
 
 
 
@@ -9,7 +9,7 @@ export const useActiveTask = () => {
    const [task, setTask] = useState(activeDefault)
    const tasks = useTasksStore((state) => state.tasks)
    const id = useActiveStore((state) => state.activeId)
-   const theme = useThemeStore((state) => state.theme)
+   const theme = useMainStore((state) => state.theme)
 
    useEffect(() => {
       if(theme === 'theme-red'){

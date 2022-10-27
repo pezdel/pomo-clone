@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { TimeItem } from '../../utils/types'
-import { useTimerStore } from '../../stores'
+import { useMainStore } from '../../stores'
 import shallow from 'zustand/shallow'
 
 
@@ -9,7 +9,7 @@ import shallow from 'zustand/shallow'
 
 
 export const useTimer = (startTime: TimeItem | undefined) => {
-   const [running, setRunning] = useTimerStore((state) => [state.running, state.setRunning], shallow)
+   const [running, setRunning] = useMainStore((state) => [state.running, state.setRunning], shallow)
    const [finished, setFinished] = useState(false) 
    const [min, setMin] = useState(0)
    const [sec, setSec] = useState(0)

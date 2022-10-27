@@ -1,11 +1,11 @@
 import { Button } from "../utils"
 import shallow from 'zustand/shallow'
-import { useThemeStore, useTimerStore } from "../../stores"
+import { useMainStore } from "../../stores"
 
 
 export const TimerHeader: React.FC = () => {
-   const [theme, setTheme] = useThemeStore((state) => [state.theme, state.setTheme], shallow)
-   const [running, setRunning] = useTimerStore((state) => [state.running, state.setRunning], shallow)
+   const [theme, setTheme] = useMainStore((state) => [state.theme, state.setTheme], shallow)
+   const [running, setRunning] = useMainStore((state) => [state.running, state.setRunning], shallow)
 
    const toggleTheme = (theme: string) => {
       if(running){

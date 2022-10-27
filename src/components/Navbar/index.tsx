@@ -1,9 +1,11 @@
 import React from 'react'
 import { Button } from '../utils'
 import { ReportSvg, SettingSvg, LoginSvg } from '../../utils/svg'
+import { useMainStore } from '../../stores'
 
 
-export const Navbar: React.FC<{openSetting: () => void}> = ({openSetting}) => {
+export const Navbar: React.FC = () => {
+   const setSettingModal = useMainStore((state) => state.setSettingModal)
    const baseStyle = 'inline-block flex items-center mx-1 px-3 py-1 text-white font-light text-xs leading-tight rounded-md hover:bg-red-400 transition duration-150 ease-in-out '
 
    return (
@@ -22,7 +24,7 @@ export const Navbar: React.FC<{openSetting: () => void}> = ({openSetting}) => {
                />
             <Button 
                text={"Setting"} 
-               onClick={openSetting} 
+               onClick={() => setSettingModal(true)} 
                svg={<SettingSvg />} 
                className={`${baseStyle} + bg-light`} 
                />
@@ -32,6 +34,6 @@ export const Navbar: React.FC<{openSetting: () => void}> = ({openSetting}) => {
                className={`${baseStyle} + bg-light`} 
                />
          </div>
-         </>
+      </>
    )
 }
