@@ -1,19 +1,32 @@
 import { Button } from "../utils"
+import {TaskItem} from '../../utils/types'
 import shallow from 'zustand/shallow'
-import { useMainStore } from "../../stores"
+import { useMainStore, useActiveStore, useTasksStore } from "../../stores"
+import { longDefault, shortDefault } from "../../utils/utils"
 
 
 export const TimerHeader: React.FC = () => {
    const [theme, setTheme] = useMainStore((state) => [state.theme, state.setTheme], shallow)
    const [running, setRunning] = useMainStore((state) => [state.running, state.setRunning], shallow)
+   const tasks = useTasksStore((state) => state.tasks)
+   const activeId = useActiveStore((state) => state.id)
+   const setTask = useActiveStore((state) => state.setTask)
 
-   const toggleTheme = (theme: string) => {
+   const toggleTheme = (t: string) => {
       if(running){
          setRunning(false)
          alert("timer stopped")
       }
-      setTheme(theme)
+      setTheme(t)
+      if(t == 'theme-red'){
+         setTask(tasks.find(task => task.id === activeId) as TaskItem)
+      }else if(t == 'theme-teal'){
+         setTask(shortDefault)
+      }else if(t == 'theme-blue'){
+         setTask(longDefault)
+      }
    }
+
 
    return(
       <>
