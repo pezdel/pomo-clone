@@ -1,11 +1,3 @@
-import { SettingModal } from "./setting";
-import { EditModal } from "./edit";
-
-
-export { SettingModal, EditModal }
-
-
-
 export const ModalTemplate:React.FC <{children: any, close: any}> = ({children, close}) => {
 
    const handleClose =(e: any) => {
@@ -21,3 +13,22 @@ export const ModalTemplate:React.FC <{children: any, close: any}> = ({children, 
       </div>
    )
 }
+
+
+
+
+
+export const Button: React.FC<{
+   className?: string, 
+   onClick?: () => void, 
+   svg?: any, 
+   text?: string}> = ({className, onClick, svg, text}) => {
+
+   return(
+      <button type='button' className={className} onClick={onClick}>
+         {svg && svg}
+         {text}
+      </button>
+   )
+}
+

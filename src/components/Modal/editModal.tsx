@@ -1,9 +1,9 @@
 import React from 'react'
-import { ModalTemplate } from '..'
-import { UpSvg, DownSvg } from '../../../utils/svg'
-import { useTasksStore, useActiveStore, useEditStore, useCountItem, useTimeItem } from '../../../stores'
-import { Button } from '../../Button'
-import { IncDec } from '../../../utils/types';
+import { ModalTemplate } from '../utils'
+import { UpSvg, DownSvg } from '../../utils/svg'
+import { useTasksStore, useActiveStore, useEditStore, useCountItem, useTimeItem } from '../../stores'
+import { Button } from '../utils'
+import { IncDec } from '../../utils/types';
 import shallow from 'zustand/shallow'
 
 

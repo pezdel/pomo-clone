@@ -1,6 +1,6 @@
 import { StateCreator } from 'zustand'
 import { StoreType } from '.';
-import { IncDec, TaskItem } from '../../utils/types';
+import { TaskItem } from '../../utils/types';
 import { editDefault } from '../../utils/utils';
 import { useTasksStore } from '../TasksStore';
 

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Button } from '../Button'
+import { Button } from '../utils'
 import { ReportSvg, SettingSvg, LoginSvg } from '../../utils/svg'
 
 
-const Navbar: React.FC<{openSetting: () => void}> = ({openSetting}) => {
+export const Navbar: React.FC<{openSetting: () => void}> = ({openSetting}) => {
    const baseStyle = 'inline-block flex items-center mx-1 px-3 py-1 text-white font-light text-xs leading-tight rounded-md hover:bg-red-400 transition duration-150 ease-in-out '
 
    return (
@@ -35,4 +35,3 @@ const Navbar: React.FC<{openSetting: () => void}> = ({openSetting}) => {
          </>
    )
 }
-export default Navbar

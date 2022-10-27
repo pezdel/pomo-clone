@@ -1,6 +1,6 @@
 import type { TaskItem } from '../../utils/types'
 import { CheckSvg, NotCheckSvg, MenuSvg } from '../../utils/svg'
-import { Button } from '../Button'
+import { Button } from '../utils'
 import { useTasksStore, useActiveStore } from '../../stores'
 import shallow from 'zustand/shallow'
 

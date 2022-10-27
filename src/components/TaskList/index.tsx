@@ -1,21 +1,14 @@
-import { Button } from '../Button'
+import { Button } from '../utils'
 import { TaskListItem } from './TaskListItem'
 import { AddSvg } from '../../utils/svg'
 import { useTasksStore } from '../../stores'
-import { useActiveTask } from '../../hooks'
 
 
-const TaskList: React.FC<{openEdit: (id: number) => void}> = ({openEdit}) => {
+export const TaskList: React.FC<{openEdit: (id: number) => void}> = ({openEdit}) => {
    const tasks = useTasksStore((state) => state.tasks)
-   const activeTask = useActiveTask()
 
    return(
       <>
-         <div className="flex justify-center items-center pb-3 w-96 ">
-            <div className='bg-primary pl-3 text-2xl'>
-               {activeTask && activeTask.name}
-            </div>
-         </div>
          <Button 
             text="AddTask"
             className="flex items-center justify-center w-full h-14 bg-dark border border-dashed rounded-md text-gray-200 font-normal"
@@ -34,7 +27,4 @@ const TaskList: React.FC<{openEdit: (id: number) => void}> = ({openEdit}) => {
       </>
    )
 }
-export default TaskList
-
-
 

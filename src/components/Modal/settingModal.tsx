@@ -1,4 +1,4 @@
-import { ModalTemplate } from '..'
+import { ModalTemplate } from '../utils'
 
 
 

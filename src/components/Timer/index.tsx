@@ -1,4 +1,4 @@
-import { Button } from '../Button'
+import { Button } from '../utils'
 import { useEffect } from 'react'
 import { useTimer } from '../../hooks'
 import { useTasksStore, useThemeStore } from '../../stores'
@@ -58,3 +58,20 @@ export const Timer: React.FC = () => {
       </>
    )
 }
+
+
+
+
+
+//updates for mainTaskStore
+//updateTime ---sent after stopButton to mainTaskStore
+//updateCount ---sent after time hits 00 to mainTaskStore
+
+//forTimer
+//decSec---used inside timer for ticking second (idk where this will update, either local state, or zustand store state?)
+//decMin--maybe
+
+//running
+//finished
+//toggleOnOff
+

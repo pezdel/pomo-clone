@@ -1,15 +1,12 @@
 import type { NextPage } from "next";
-import Navbar from "../components/Navbar";
-import TimerBox from "../components/TimerBox";
-import TaskList from "../components/TaskList";
-import { SettingModal, EditModal } from '../components/Modal/'
+import { Navbar, TimerHeader, Timer, TaskList, SettingModal, EditModal, TimerText } from '../components'
 import { useEditModal, useSettingModal } from "../hooks";
 import { useThemeStore } from '../stores'
 
 //so plan for today is to finish 
-//--store/hooks from yesterday get them working up to our standard
-//--refactor timer / the hook we use for that 
+//--refactor timer / the hook we use for that ---still left over
 //--start in on setting modal and figure that part out
+//--push to vercel
 
 const Home: NextPage = () => {
    const theme = useThemeStore((state) => state.theme)
@@ -24,9 +21,11 @@ const Home: NextPage = () => {
                   <Navbar openSetting={openSetting} />
                </div>
                <div className="flex flex-col w-96 h-72 bg-light rounded-md">
-                  <TimerBox />
+                  <TimerHeader />
+                  <Timer />
                </div>
                <div className='w-96'>
+                  <TimerText />
                   <TaskList openEdit={openEdit} />
                </div>
             </div>
@@ -37,8 +36,4 @@ const Home: NextPage = () => {
    );
 };
 export default Home;
-
-
-
-
 

@@ -1,10 +1,9 @@
-import { Button } from "../Button"
-import { Timer } from './Timer'
+import { Button } from "../utils"
 import shallow from 'zustand/shallow'
 import { useThemeStore, useTimerStore } from "../../stores"
 
 
-const TimerBox: React.FC = () => {
+export const TimerHeader: React.FC = () => {
    const [theme, setTheme] = useThemeStore((state) => [state.theme, state.setTheme], shallow)
    const [running, setRunning] = useTimerStore((state) => [state.running, state.setRunning], shallow)
 
@@ -35,9 +34,7 @@ const TimerBox: React.FC = () => {
                onClick={() => toggleTheme('theme-blue')}
                />
          </div>
-         <Timer />
       </>
    )
 }
-export default TimerBox
 

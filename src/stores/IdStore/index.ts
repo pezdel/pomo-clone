@@ -1,12 +1,12 @@
 import create from 'zustand'
 
 
-export interface IIdStore{
+export interface IdStore{
    id: number; 
    setId: () => void;
 }
 
-export const useIdStore = create<IIdStore>()((set) => ({
+export const useIdStore = create<IdStore>()((set) => ({
    id: 0,
    setId: () => set(state => ({id: state.id + 1})),
 })) 

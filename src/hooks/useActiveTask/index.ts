@@ -13,6 +13,7 @@ export const useActiveTask = () => {
 
    useEffect(() => {
       if(theme === 'theme-red'){
+         console.log(id)
          setTask(tasks.find(task => task.id === id) as TaskItem)
       }else if(theme === 'theme-teal'){
          setTask(shortDefault)
