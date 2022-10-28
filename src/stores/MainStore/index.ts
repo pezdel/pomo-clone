@@ -1,10 +1,8 @@
 import create from 'zustand'
+import { devtools, persist } from 'zustand/middleware'
 
 
-export interface IMainStore{
-   id: number;
-   setId: () => void;
-
+export interface MainStore{
    theme: string; 
    setTheme: (t: string) => void;
 
@@ -18,20 +16,23 @@ export interface IMainStore{
    setRunning: (b: boolean) => void
 }
 
-export const useMainStore = create<IMainStore>()((set) => ({
-   id: 0,
-   setId: () => set(state => ({id: state.id + 1})),
+export const useMainStore = create<MainStore>()(
+   devtools(
+      // persist(
+         (set => ({
+            theme: 'theme-red',
+            setTheme: (t) => set({theme: t}),
 
-   theme: 'theme-red',
-   setTheme: (t) => set({theme: t}),
+            editModal: false,
+            setEditModal: (b) => set({editModal: b}),
 
-   editModal: false,
-   setEditModal: (b) => set({editModal: b}),
+            settingModal: false,
+            setSettingModal: (b) => set({settingModal: b}),
 
-   settingModal: false,
-   setSettingModal: (b) => set({settingModal: b}),
-
-   running: false,
-   setRunning: (b) => set({running: b})
-})) 
+            running: false,
+            setRunning: (b) => set({running: b})         
+         })),{name: "main"}
+      // )
+   )
+)
 

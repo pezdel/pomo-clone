@@ -10,12 +10,22 @@ import shallow from 'zustand/shallow'
 
 
 export const EditModal: React.FC = () => {
-   const { task, setName, submit } = useEditStore()
+   const { task, setName } = useEditStore()
+   const add = useTasksStore((state) => state.add)
+   const update = useTasksStore((state) => state.update)
    const setEditModal = useMainStore((state) => state.setEditModal)
    const countItem = useCountItem()
    const timeItem = useTimeItem()
    
-
+   const submit = () => {
+      if(task.fresh){
+         add(task)
+      }else{
+         update(task.id, task)
+      }
+      setEditModal(false)
+   }
+      
    return(
       <ModalTemplate close={close}>
          <div className='h-64 w-80 border-2 flex flex-col rounded-lg justify-between bg-white'>
@@ -36,7 +46,7 @@ export const EditModal: React.FC = () => {
                      />
                   <Button 
                      className="h-8 w-16 mx-1 bg-gray-800 text-gray-200 rounded-lg text-sm font-normal hover:bg-gray-900"
-                     onClick={() => submit(() => setEditModal(false))}
+                     onClick={submit}
                      text="Save"
                      />
                </div>
@@ -82,7 +92,7 @@ const Counter: React.FC<{item: IncDec, type: string}> = ({item, type}) => {
 const DeleteButton: React.FC<{id: number, close: () => void}> = ({id, close}) => {
    const tasks = useTasksStore((state) => state.tasks)
    const removeTask = useTasksStore((state) => state.remove)
-   const [activeId, setActiveId] = useActiveStore((state) => [state.activeId, state.setActiveId], shallow)
+   const [activeId, setActiveId] = useActiveStore((state) => [state.id, state.setId], shallow)
 
    const handleDelete = () => {
       if(activeId === id && tasks[0] != undefined){

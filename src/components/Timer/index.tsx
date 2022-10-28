@@ -5,32 +5,25 @@ import { useTasksStore, useMainStore, useActiveStore } from '../../stores'
 import shallow from 'zustand/shallow'
 
 
-//so we are here, inside timer which pulls info from useActiveStore
-//when running is stopped we need to update the TasksStore with the new 14:42
-//if the timer completes, it turns off and writes updates to the mainstore inside count and time
-//so we need two methods attached to the active store, updateTime, updateCount
 
 export const Timer: React.FC = () => {
    const task = useActiveStore((state) => state.task)
-   const tt = useTasksStore((state) => state.tasks)
    const { time, startStop, running, finished } = useTimer(task?.time.current)
-   const updateTime = useActiveStore((state) => state.updateTime)
-   const updateCount = useActiveStore((state) => state.updateCount)
+   // const updateTime = useActiveStore((state) => state.updateTime)
+   // const updateCount = useActiveStore((state) => state.updateCount)
 
-   useEffect(() => {
-      console.log(tt)
-   },[tt])
+   
 
    useEffect(() => {
       if(finished){
-         updateCount()
+         // updateCount()
          // setTheme('theme-teal')
       }
    },[finished])
 
    useEffect(() => {
       if(!running){
-         updateTime(time)
+         // updateTime(time)
       }
    },[running])
    
