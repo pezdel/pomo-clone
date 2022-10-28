@@ -24,9 +24,13 @@ export const useTasksStore = create<TaskStore>()((set, get) => ({
    add: (task) => {
       const id = useMainStore.getState().id
       set(state => ({
-         tasks: [...state.tasks, {...task, id: id, fresh: false}]
+         tasks: [...state.tasks, {...task, 
+            id: id, 
+            fresh: false, 
+            time: {...task.time, current: {...task.time.total}},
+         }]
       }))
-      useActiveStore.getState().setActiveId(id)
+      useActiveStore.getState().setId(id)
       useMainStore.getState().setId()
    },
    update: (id, item) => set(state => ({
@@ -43,5 +47,5 @@ export const useTasksStore = create<TaskStore>()((set, get) => ({
          ...task,
          count: {...task.count, current: task.id === id ? task.count.current + 1 : task.count.current}
       }))
-   }))
+   })),
 }))

@@ -7,11 +7,11 @@ import { useEditStore, useMainStore, useTasksStore } from '../../stores'
 export const TaskList: React.FC = () => {
    const tasks = useTasksStore((state) => state.tasks)
    const setEditModal = useMainStore((state) => state.setEditModal)
-   const setEditId = useEditStore((state) => state.setEditId)
+   const setEditTask = useEditStore((state) => state.setTask)
    
    const openEdit = (id: number) => {
       setEditModal(true)
-      setEditId(id)
+      setEditTask(id)
    }
 
    return(

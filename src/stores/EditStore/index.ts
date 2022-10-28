@@ -38,8 +38,8 @@ export const useEditStore = create<IEditStore>()((set, get) => ({
    },
    decTime: () => {
       const task = get().task
-      if(task.time.total.min > 5){
-         set({task: {...task, time: {...task.time, total: {...task.time.total, min: task.time.total.min - 5}}}})
+      if(task.time.total.min > 1){
+         set({task: {...task, time: {...task.time, total: {...task.time.total, min: task.time.total.min - 1}}}})
       }
    },
    incCount: () => {

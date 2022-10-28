@@ -1,30 +1,36 @@
 import { Button } from '../utils'
 import { useEffect } from 'react'
-import { useTimer } from '../../hooks'
-import { useTasksStore, useMainStore } from '../../stores'
+import { useTimer } from './useTimer'
+import { useTasksStore, useMainStore, useActiveStore } from '../../stores'
 import shallow from 'zustand/shallow'
-import { useActiveTask } from '../../hooks'
 
 
+//so we are here, inside timer which pulls info from useActiveStore
+//when running is stopped we need to update the TasksStore with the new 14:42
+//if the timer completes, it turns off and writes updates to the mainstore inside count and time
+//so we need two methods attached to the active store, updateTime, updateCount
 
 export const Timer: React.FC = () => {
-   const task = useActiveTask()
-   const [theme, setTheme] = useMainStore((state) => [state.theme, state.setTheme], shallow)
+   const task = useActiveStore((state) => state.task)
+   const tt = useTasksStore((state) => state.tasks)
    const { time, startStop, running, finished } = useTimer(task?.time.current)
-   const incCount = useTasksStore((state) => state.taskDone)
+   const updateTime = useActiveStore((state) => state.updateTime)
+   const updateCount = useActiveStore((state) => state.updateCount)
+
+   useEffect(() => {
+      console.log(tt)
+   },[tt])
 
    useEffect(() => {
       if(finished){
-         if(!task) return
-         incCount(task.id)
-         setTheme('theme-teal')
+         updateCount()
+         // setTheme('theme-teal')
       }
    },[finished])
 
    useEffect(() => {
-      if(!running && theme == 'theme-red' && time.min != 0){
-         if(!task) return
-         incCount(task.id)
+      if(!running){
+         updateTime(time)
       }
    },[running])
    

@@ -6,7 +6,7 @@ import shallow from 'zustand/shallow'
 
 
 export const TaskListItem: React.FC<{item: TaskItem, openEdit: (id: number) => void}> = ({item, openEdit}) => {
-   const [activeId, setActiveId] = useActiveStore((state) => [state.activeId, state.setActiveId], shallow)
+   const [activeId, setActiveId] = useActiveStore((state) => [state.id, state.setId], shallow)
    const toggleComplete = useTasksStore((state) => state.toggleComplete)
 
    return(

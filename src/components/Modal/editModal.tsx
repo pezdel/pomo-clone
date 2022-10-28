@@ -36,7 +36,7 @@ export const EditModal: React.FC = () => {
                      />
                   <Button 
                      className="h-8 w-16 mx-1 bg-gray-800 text-gray-200 rounded-lg text-sm font-normal hover:bg-gray-900"
-                     onClick={() => submit(close)}
+                     onClick={() => submit(() => setEditModal(false))}
                      text="Save"
                      />
                </div>

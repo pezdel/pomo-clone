@@ -4,8 +4,6 @@ import { useMainStore } from '../../stores'
 import shallow from 'zustand/shallow'
 
 
-//so i think we do the normal setting method and then pull in the task here?
-//and make updates?
 
 
 export const useTimer = (startTime: TimeItem | undefined) => {
