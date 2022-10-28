@@ -13,3 +13,6 @@ export {
 };
 
 
+export const getIdx = (id: number): number => {
+   return useTasksStore.getState().tasks.findIndex(task => task.id === id)
+}

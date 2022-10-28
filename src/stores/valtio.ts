@@ -31,8 +31,8 @@ export const store = proxy<TaskStore>({
          task.complete = !task.complete
       }
    },
-   
 })
+
 
 
 export const main = proxy({
