@@ -1,46 +1,46 @@
-import create from 'zustand'
-import { TaskItem } from '../../utils/types';
-import { activeDefault, longDefault, shortDefault } from '../../utils/utils';
-import { immer } from 'zustand/middleware/immer'
-import { devtools } from 'zustand/middleware'
-import { getIdx } from '..';
+import { StateCreator } from 'zustand'
 import { useMainStore } from '../MainStore'
-import { useTasksStore } from '../TasksStore'
+import { TaskType } from '..';
 
 
-export interface ActiveStore{
-   task: TaskItem;
-   id: number;
-   idx: number;
-   setTask: (t: TaskItem) => void;
-   setId: (id: number) => void;
+export interface ActiveSlice{
+   activeTask: {time: number, count: number, name: string}
+   activeId: number;
+   setActiveId: (id: number) => void;
+   setActiveTask: () => void;
 }
 
 
-export const useActiveStore = create<ActiveStore>()(
-   immer(
-      devtools(
-         (set => ({
-            task: activeDefault,
-            id: 0,
-            idx: 0,
-            setTask: (t) => {
-               set({task: t})
-            },
-            setId: (id) => {
-               const tasks = useTasksStore.getState().tasks
-               const idx = getIdx(id)
-               set({id: id, idx: idx})
-               if(useMainStore.getState().theme === 'theme-red'){
-                  set(state => {
-                     state.task = tasks[idx] as TaskItem
-                  })
-               }
+export const useActiveSlice: StateCreator<TaskType, [["zustand/immer", never], ["zustand/devtools", never]], [], ActiveSlice> = (set, get) => ({
+   activeTask: {time: 1, count: 2, name: "active"},
+   activeId: 0,
+   setActiveId: (id) => {
+      set({activeId: id})
+      get().setActiveTask()
+   },
+   setActiveTask: () => {
+      const theme = useMainStore.getState().theme
+      const id = get().activeId
+      if(theme === 'theme-red'){
+         set(state => {
+            const task = state.tasks.find(task => task.id == id)
+            if(task){
+               state.activeTask = {time: task.time.current.min, count: task.count.current, name: task.name}
             }
-         })),{name: 'active'}
-      )
-   )
-)
+         })
+      }else if(theme === 'theme-teal'){
+         set(state => {
+            state.activeTask = {time: 5, count: 1, name: "ShortBreak"}
+         })
+      }else if (theme === 'theme-blue'){
+         set(state => {
+            state.activeTask = {time: 15, count: 1, name: "LongBreak"}
+         })
+      }
+   }
+})
+
+
 
 
 

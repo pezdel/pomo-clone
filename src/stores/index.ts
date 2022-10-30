@@ -1,18 +1,28 @@
+import create from 'zustand'
 import { useMainStore } from './MainStore'
-import { useTasksStore } from './TasksStore'
-import { useActiveStore } from './ActiveStore'
-import { useEditStore, useCountItem, useTimeItem } from './EditStore'
+import { useTasksSlice, TaskSlice } from './TasksStore'
+import { useEditSlice, EditSlice } from './EditStore'
+import { useActiveSlice, ActiveSlice } from './ActiveStore'
+import { immer } from 'zustand/middleware/immer'
+import { devtools } from 'zustand/middleware'
 
 export {
   useMainStore,
-  useTasksStore,
-  useEditStore,
-  useActiveStore,
-  useCountItem,
-  useTimeItem,
 };
 
+export type TaskType = TaskSlice & EditSlice & ActiveSlice
 
-export const getIdx = (id: number): number => {
-   return useTasksStore.getState().tasks.findIndex(task => task.id === id)
-}
+
+export const useTasksStore = create<TaskType>()(
+   immer(
+      devtools(
+         (...a) => ({
+            ...useTasksSlice(...a),
+            ...useEditSlice(...a),
+            ...useActiveSlice(...a),
+         })
+      )
+   )
+)
+
+

@@ -1,41 +1,38 @@
-import React from 'react'
+import React  from 'react'
 import { ModalTemplate } from '../utils'
 import { UpSvg, DownSvg } from '../../utils/svg'
-import { useTasksStore, useActiveStore, useEditStore, useCountItem, useTimeItem, useMainStore } from '../../stores'
+import { useTasksStore, useMainStore } from '../../stores'
 import { Button } from '../utils'
-import { IncDec } from '../../utils/types';
 import shallow from 'zustand/shallow'
 
 
-
-
 export const EditModal: React.FC = () => {
-   const { task, setName } = useEditStore()
-   const add = useTasksStore((state) => state.add)
-   const update = useTasksStore((state) => state.update)
+   const task = useTasksStore((state) => state.editTask)
+   const editId = useTasksStore((state) => state.editId)
+   const [incCount, decCount] = useTasksStore((state) => [state.incCount, state.decCount], shallow)
+   const [incTime, decTime] = useTasksStore((state) => [state.incTime, state.decTime], shallow)
+   const { setName, add, update } = useTasksStore((state) => ({setName: state.setName, add: state.add, update: state.update}), shallow)
    const setEditModal = useMainStore((state) => state.setEditModal)
-   const countItem = useCountItem()
-   const timeItem = useTimeItem()
-   
+
    const submit = () => {
-      if(task.fresh){
+      if(editId == -1){
          add(task)
       }else{
-         update(task.id, task)
+         update(editId, task)
       }
       setEditModal(false)
    }
-      
+
    return(
       <ModalTemplate close={close}>
          <div className='h-64 w-80 border-2 flex flex-col rounded-lg justify-between bg-white'>
             <input placeholder={task.name} onChange={(e) => setName(e.target.value)} className="w-full shadow-xl rounded-lg h-14 form-control block text-base " />
 
             <div className="flex w-full justify-between px-6 ">
-               <Counter type="Count" item={countItem} />
-               <Counter type="Time" item={timeItem} />
+               <Counter type="Count" inc={incCount} dec={decCount} val={task.count} />
+               <Counter type="Time" inc={incTime} dec={decTime} val={task.time} />
             </div>
-            
+
             <div className="flex justify-between bg-gray-300 shadow-lg">
                {/* {!edit.fresh && <DeleteButton id={edit.id} close={close} />} */}
                <div className='flex w-full h-14 pr-2 justify-end items-center'>
@@ -58,7 +55,7 @@ export const EditModal: React.FC = () => {
 
 
 
-const Counter: React.FC<{item: IncDec, type: string}> = ({item, type}) => {
+const Counter: React.FC<{inc: () => void, dec: () => void, val: number, type: string}> = ({inc, dec, val, type}) => {
    return(
       <>
          <div className="flex flex-col w-24 h-28 justify-between py-1.5">
@@ -66,22 +63,22 @@ const Counter: React.FC<{item: IncDec, type: string}> = ({item, type}) => {
                {type} 
             </div>
             <div className="flex justify-center text-4xl">
-               {item.val}{type=="Time" ? ":00" : ""}
+               {val}{type=="Time" ? ":00" : ""}
             </div>
             <div className="flex justify-between w-full px-2 ">
                <Button 
-                  onClick={item.dec}
+                  onClick={dec}
                   className="flex justify-center border-2 shadow-lg px-1.5 py-1"
                   svg={<DownSvg />}
                   /> 
                <Button 
-                  onClick={item.inc}
+                  onClick={inc}
                   className="flex justify-center border-2 shadow-lg px-1.5 py-1"
                   svg={<UpSvg/>}
                   />
             </div>
          </div>
-      </>
+         </>
    )
 }
 
@@ -92,17 +89,17 @@ const Counter: React.FC<{item: IncDec, type: string}> = ({item, type}) => {
 const DeleteButton: React.FC<{id: number, close: () => void}> = ({id, close}) => {
    const tasks = useTasksStore((state) => state.tasks)
    const removeTask = useTasksStore((state) => state.remove)
-   const [activeId, setActiveId] = useActiveStore((state) => [state.id, state.setId], shallow)
+   // const [activeId, setActiveId] = useActiveStore((state) => [state.id, state.setId], shallow)
 
    const handleDelete = () => {
-      if(activeId === id && tasks[0] != undefined){
-         setActiveId(tasks[0].id)
-      }
+      // if(activeId === id && tasks[0] != undefined){
+      //    setActiveId(tasks[0].id)
+      // }
       removeTask(id)
       close()
    }
 
-  return(
+   return(
       <div className="flex justify-center items-center pl-2">
          <button onClick={handleDelete} className="bg-red-900 flex items-center justify-center h-8 w-16 text-gray-200 rounded-lg text-sm font-normal hover:bg-red-800 ">
             Delete

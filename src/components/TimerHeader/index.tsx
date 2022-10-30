@@ -1,32 +1,10 @@
 import { Button } from "../utils"
-import {TaskItem} from '../../utils/types'
 import shallow from 'zustand/shallow'
-import { useMainStore, useActiveStore, useTasksStore } from "../../stores"
-import { longDefault, shortDefault } from "../../utils/utils"
+import { useMainStore } from "../../stores"
 
 
 export const TimerHeader: React.FC = () => {
    const [theme, setTheme] = useMainStore((state) => [state.theme, state.setTheme], shallow)
-   const [running, setRunning] = useMainStore((state) => [state.running, state.setRunning], shallow)
-   const tasks = useTasksStore((state) => state.tasks)
-   const activeId = useActiveStore((state) => state.id)
-   const setTask = useActiveStore((state) => state.setTask)
-
-   const toggleTheme = (t: string) => {
-      if(running){
-         setRunning(false)
-         alert("timer stopped")
-      }
-      setTheme(t)
-      if(t == 'theme-red'){
-         setTask(tasks.find(task => task.id === activeId) as TaskItem)
-      }else if(t == 'theme-teal'){
-         setTask(shortDefault)
-      }else if(t == 'theme-blue'){
-         setTask(longDefault)
-      }
-   }
-
 
    return(
       <>
@@ -34,17 +12,17 @@ export const TimerHeader: React.FC = () => {
             <Button 
                text="Pomodoro"
                className={`text-sm font-medium px-2.5 py-1 rounded-md ${theme == 'theme-red' ? ' bg-dark' : ' '}`} 
-               onClick={() => toggleTheme('theme-red')}
+               onClick={() => setTheme('theme-red')}
                />
             <Button
                text="Short Break"
                className={`text-sm font-medium px-2.5 py-1 rounded-md ${theme == 'theme-teal' ? ' bg-dark' : ' '}`} 
-               onClick={() => toggleTheme('theme-teal')}
+               onClick={() => setTheme('theme-teal')}
                />
             <Button
                text="Long Break"
                className={`text-sm font-medium px-2.5 py-1 rounded-md ${theme == 'theme-blue' ? ' bg-dark' : ' '}`} 
-               onClick={() => toggleTheme('theme-blue')}
+               onClick={() => setTheme('theme-blue')}
                />
          </div>
       </>

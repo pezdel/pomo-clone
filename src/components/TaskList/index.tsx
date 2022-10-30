@@ -1,18 +1,12 @@
 import { Button } from '../utils'
 import { TaskListItem } from './TaskListItem'
 import { AddSvg } from '../../utils/svg'
-import { useEditStore, useMainStore, useTasksStore } from '../../stores'
+import { useTasksStore } from '../../stores'
 
 
 export const TaskList: React.FC = () => {
    const tasks = useTasksStore((state) => state.tasks)
-   const setEditModal = useMainStore((state) => state.setEditModal)
-   const setEditTask = useEditStore((state) => state.setTask)
-   
-   const openEdit = (id: number) => {
-      setEditModal(true)
-      setEditTask(id)
-   }
+   const openEdit = useTasksStore((state) => state.setEditTask)
 
    return(
       <>

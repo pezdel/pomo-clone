@@ -1,17 +1,33 @@
+import { useState } from 'react'
 import { Button } from '../utils'
 import { useEffect } from 'react'
 import { useTimer } from './useTimer'
-import { useTasksStore, useMainStore, useActiveStore } from '../../stores'
-import shallow from 'zustand/shallow'
+import { useTasksStore, useMainStore } from '../../stores'
+import { activeDefault, longDefault, shortDefault } from '../../utils/utils'
+import { TaskItem } from '../../utils/types'
 
 
 
 export const Timer: React.FC = () => {
-   const task = useActiveStore((state) => state.task)
-   const { time, startStop, running, finished } = useTimer(task?.time.current)
-   // const updateTime = useActiveStore((state) => state.updateTime)
-   // const updateCount = useActiveStore((state) => state.updateCount)
+   const [t, setT] = useState(activeDefault)
+   const theme = useMainStore((state) => state.theme)
+   const active = useTasksStore((state) => state.tasks[state.tasks.findIndex(task => task.id === state.activeId)] as TaskItem)
+   const { time, startStop, running, finished } = useTimer(t.time.current)
 
+
+   useEffect(() => {
+      if(theme == 'theme-red'){
+         if(active){
+            setT(active)
+         }else{
+            setT(activeDefault)
+         }
+      }else if(theme == 'theme-teal'){
+         setT(shortDefault)
+      }else if(theme == 'theme-blue'){
+         setT(longDefault)
+      }
+   },[theme, active])
    
 
    useEffect(() => {

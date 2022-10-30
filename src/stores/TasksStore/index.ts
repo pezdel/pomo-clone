@@ -1,69 +1,106 @@
-import create from 'zustand'
+import { StateCreator } from 'zustand'
 import type { TaskItem } from '../../utils/types'
-import { sampleList } from '../../utils/utils'
-import { immer } from 'zustand/middleware/immer'
-import { devtools, persist } from 'zustand/middleware'
-import { getIdx } from '..'
-import { useActiveStore } from '../ActiveStore'
-import { useEditStore } from '../EditStore'
+import { TaskType } from '..'
 
-interface TaskStore {
-   tasks: TaskItem[]
+interface EditObj {
+   name: string;
+   count: number;
+   time: number;
+}
+
+
+
+
+   //--setActiveId
+   //checks the theme 
+      //if theme-red ~ use the activeIdx THIS state.tasks.find(task => task.id === state.activeId) --reun every task or id change
+      //if theme-teal ~ use shortDefault
+      //if theme-blue ~ use longDefault
+   
+   //--Methods 
+   //start
+   //stop
+   //next
+   //decTime? --first two are effects that actually happen, the bot two are more derived things?
+   //submit?
+
+   //--Store
+   //activeId 
+   //setActiveId 
+   //activeTask---subStore
+   
+
+   //-----------Edit 
+   //--setEditID
+   //check id provided 
+      //if -1 ~ useTemplate 
+      //else ~ use the id to find in TaskList
+   
+   //--Methods 
+   //inc/dec Time 
+   //inc/dec Count 
+   //submit ---if editId == -1 => add else update 
+   //delete ---if editId != -1 && if activeId === editId => change activeId
+   
+   //--Store? 
+   //editId
+   //setEditId
+   //editTask --subStore
+
+export interface TaskSlice {
    id: number
+   tasks: TaskItem[];
+   add: (item: EditObj) => void;
    remove: (id: number) => void;
-   add: (task: TaskItem) => void;
-   update: (id: number, task: TaskItem) => void;
+   update: (id: number, item: EditObj) => void;
    toggleComplete: (id: number) => void;
 }
 
 
-export const useTasksStore = create<TaskStore>()(
-   immer(
-      devtools(
-         // persist(
-            (set => ({
-               tasks: sampleList,
-               id: 0,
-               remove: (id) => {
-                  const idx = getIdx(id)
-                  set(state => {
-                     state.tasks.splice(idx, 1)
-                  })
-               },
-               add: (task) => {
-                  set(state => {
-                     let task = {...useEditStore.getState().task}
-                     console.log(state.id)
-                     task.id = state.id
-                     task.fresh = false 
-                     task.time.current = task.time.total
-                     state.tasks = [...state.tasks, task]
-                     useActiveStore.setState({task: task, id: state.id})
-                     state.id += 1
-                  })
-               },
-               update: (id, task) => {
-                  const idx = getIdx(id)
-                  set(state => {
-                     state.tasks[idx] = task 
-                  })
-                  if(id === useActiveStore.getState().id){
-                     useActiveStore.setState({task: task})
-                  }
-               },
-               toggleComplete: (id) => {
-                  set(state => {
-                     const task = state.tasks.find(task => task.id === id)
-                     if(task){
-                        task.complete = !task.complete
-                     }
-                  })
-               }
-            })),{name: "tasks"}
-         // )
-      )
-   )
-)
+export const useTasksSlice: StateCreator<TaskType, [["zustand/immer", never], ["zustand/devtools", never]], [], TaskSlice> = (set) => ({
+
+   id: 0,
+   tasks: [],
+   add: (item) => {
+      set(state => {
+         state.tasks.push({
+            name: item.name,
+            id: state.id,
+            time: {current: {min: item.time, sec: 0}, total: {min: item.time, sec: 0}},
+            count: {current: 0, total: item.count},
+            complete: false,
+            fresh: false,
+         })
+         state.activeId = state.id
+         state.id += 1
+      })
+   },
+   remove: (id) => {
+      set(state => {
+         const idx = state.tasks.findIndex(task => task.id === id)
+         state.tasks.splice(idx, 1)
+      })
+   },
+   update: (id, item) => {
+      set(state => {
+         const task = state.tasks.find(task => task.id === id)
+         if(task){
+            task.name = item.name
+            task.count.total = item.count
+            task.time.current.min = item.time
+            task.time.total.min = item.time
+         }
+      })
+   },
+   toggleComplete: (id) => {
+      set(state => {
+         const task = state.tasks.find(task => task.id === id)
+         if(task){
+            task.complete = !task.complete
+         }
+      })
+   }
+})
 
 
 
@@ -95,3 +132,9 @@ export const useTasksStore = create<TaskStore>()(
 //       }))
 //    })),
 // }))
+
+
+
+
+
+

@@ -1,8 +1,6 @@
 import { useMainStore } from '../../stores'
 import { ModalTemplate } from '../utils'
 
-
-
 export const SettingModal: React.FC = () => {
    const setSettingModal = useMainStore((state) => state.setSettingModal)
    return(
