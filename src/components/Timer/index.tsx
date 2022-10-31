@@ -44,7 +44,12 @@ export const Timer: React.FC = () => {
    useEffect(() => {
       if(time.finished){
          updateCount()
-         setTheme('theme-teal')
+         if(theme == 'theme-red'){
+            //logic to handle the every other break or something?
+            setTheme('theme-teal')
+         }else{
+            setTheme('theme-red')
+         }
       }
    },[time.finished])
 

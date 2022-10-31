@@ -12,6 +12,7 @@ interface ActiveTask {
    name: string;
    running?: boolean;
    finished?: boolean;
+   complete?: boolean;
 }
 
 export interface ActiveSlice{

@@ -27,7 +27,7 @@ export const shortDefault = {
    id: -1,
    name: 'Short Break',
    count: {current: 0, total: 1},
-   time: {current: {min: 5, sec: 0}, total: {min: 5, sec: 0}},
+   time: {current: {min: 1, sec: 0}, total: {min: 1, sec: 0}},
    complete: false,
    fresh: true,
 }

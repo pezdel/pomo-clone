@@ -10,6 +10,8 @@ export interface TaskItem {
    count: {current: number, total: number};
    complete: boolean;
    fresh: boolean;
+   running?: boolean;
+   finished?: boolean;
 }
 
 
