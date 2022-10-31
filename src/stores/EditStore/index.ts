@@ -4,36 +4,47 @@ import { useMainStore } from '../MainStore'
 import { TaskType } from '..';
 
 
+interface EditObj {
+   time: number;
+   count: number;
+   name: string;
+   id: number;
+}
 export interface EditSlice{
-   editTask: {time: number, count: number, name: string}
-   editId: number;
-   setEditTask: (id: number) => void
+   editTask: EditObj; 
+   updateTask: (id: number) => void;
+   addTask: () => void;
    setName: (n: string) => void;
    incCount: () => void;
    decCount: () => void;
    incTime: () => void;
    decTime: () => void;
+   submit: (task: EditObj) => void;
 }
 
 
-export const useEditSlice: StateCreator<TaskType, [["zustand/immer", never], ["zustand/devtools", never]], [], EditSlice> = (set) => ({
-   editTask: {time: 1, count: 2, name: "edit"},
-   editId: 0,
-   setEditTask: (id) => {
-      set(state => {
-         if(id == -1){
-            state.editTask = {time: 30, count: 1, name: "placeholder"}
-         }else{
-            const item = state.tasks.find(task => task.id === id) as TaskItem
-            state.editTask = {
-               time: item.time.total.min,
-               count: item.count.total,
-               name: item.name,
-            }
-         }
-         state.editId = id
-         useMainStore.setState({editModal: true})
+export const useEditSlice: StateCreator<TaskType, [
+   ["zustand/subscribeWithSelector", never], 
+   ["zustand/immer", never], 
+   ["zustand/devtools", never]
+   ], [], EditSlice>
+= (set, get) => ({
+   editTask: {time: 1, count: 2, name: "edit", id: -1},
+   addTask: () => {
+      set({
+         editTask: {time: 30, count: 1, name: "placeholder", id: -1}
       })
+      useMainStore.getState().setEditModal(true)
+   },
+   updateTask: (id) => {
+      const item = get().tasks.find(task => task.id === id) as TaskItem
+      set({editTask: {
+         time: item.time.total.min,
+         count: item.count.total,
+         name: item.name,
+         id: item.id,
+      }})
+      useMainStore.getState().setEditModal(true)
    },
    setName: (n) => {
       set(state => {
@@ -49,8 +60,8 @@ export const useEditSlice: StateCreator<TaskType, [["zustand/immer", never], ["z
    },
    decTime: () => {
       set(state => {
-         if(state.editTask.time > 5){
-            state.editTask.time -= 5
+         if(state.editTask.time > 1){
+            state.editTask.time -= 1
          }
       })
    },
@@ -67,6 +78,16 @@ export const useEditSlice: StateCreator<TaskType, [["zustand/immer", never], ["z
             state.editTask.count -= 1
          }
       })
+   },
+   submit: (task) => {
+      if(task.id == -1){
+         get().add(task)
+         get().setActiveId(get().id)
+         get().setId()
+      }else{
+         get().update(task.id, task)
+      }
+      useMainStore.getState().setEditModal(false)
    }
 })
 
@@ -121,32 +142,6 @@ export const useEditSlice: StateCreator<TaskType, [["zustand/immer", never], ["z
 //       close()
 //    },
 // })) 
-
-
-
-
-// export const useCountItem = () => {
-//    const { task, incCount, decCount } = useEditStore()
-
-//    return{
-//       inc: incCount,
-//       dec: decCount,
-//       val: task.count.total
-//    }
-// }
-
-// export const useTimeItem = () => {
-//    const { task, incTime, decTime } = useEditStore()
-
-//    return{
-//       inc: incTime,
-//       dec: decTime,
-//       val: task.time.total.min
-//    }
-// }
-
-
-
 
 
 

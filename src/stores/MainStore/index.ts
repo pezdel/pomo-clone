@@ -1,5 +1,5 @@
 import create from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { useTasksStore } from '..';
 
 
@@ -19,13 +19,10 @@ export interface MainStore{
 
 export const useMainStore = create<MainStore>()(
    devtools(
-      // persist(
+      subscribeWithSelector(
          (set => ({
             theme: 'theme-red',
-            setTheme: (t) => {
-               set({theme: t})
-               useTasksStore.getState().setActiveTask()
-            },
+            setTheme: (t) => set({theme: t}),
 
             editModal: false,
             setEditModal: (b) => set({editModal: b}),
@@ -35,8 +32,8 @@ export const useMainStore = create<MainStore>()(
 
             running: false,
             setRunning: (b) => set({running: b})         
-         })),{name: "main"}
-      // )
+         }))
+      ),{name: "main"}
    )
 )
 

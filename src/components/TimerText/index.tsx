@@ -1,7 +1,7 @@
 import { useTasksStore } from '../../stores'
 
 export const TimerText = () => {
-   const task = useTasksStore((state) => state.tasks[state.tasks.findIndex(task => task.id === state.activeId)])
+   const task = useTasksStore((state) => state.activeTask)
 
    return(
       <div className="flex justify-center items-center pb-3 w-96 ">

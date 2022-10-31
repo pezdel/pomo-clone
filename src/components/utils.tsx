@@ -1,3 +1,6 @@
+
+
+
 export const ModalTemplate:React.FC <{children: any, close: any}> = ({children, close}) => {
 
    const handleClose =(e: any) => {

@@ -1,44 +1,100 @@
 import { StateCreator } from 'zustand'
 import { useMainStore } from '../MainStore'
 import { TaskType } from '..';
+import { useTasksStore } from '..'
 
+ 
+interface ActiveTask {
+   id: number;
+   min: number;
+   sec: number;
+   count: number; 
+   name: string;
+   running?: boolean;
+   finished?: boolean;
+}
 
 export interface ActiveSlice{
-   activeTask: {time: number, count: number, name: string}
    activeId: number;
    setActiveId: (id: number) => void;
-   setActiveTask: () => void;
+   activeTask: ActiveTask; 
+   setActiveTask: (task: ActiveTask) => void;
+   setRunning: (r: boolean) => void;
+   setFinished: (f: boolean) => void;
+   decSec: () => void;
+   decMin: () => void;
+   updateTime: () => void;
+   updateCount: () => void;
 }
 
 
-export const useActiveSlice: StateCreator<TaskType, [["zustand/immer", never], ["zustand/devtools", never]], [], ActiveSlice> = (set, get) => ({
-   activeTask: {time: 1, count: 2, name: "active"},
+export const useActiveSlice: StateCreator<TaskType, [
+   ["zustand/subscribeWithSelector", never], 
+   ["zustand/immer", never], 
+   ["zustand/devtools", never]
+   ], [], ActiveSlice> 
+= (set, get) => ({
    activeId: 0,
    setActiveId: (id) => {
       set({activeId: id})
-      get().setActiveTask()
    },
-   setActiveTask: () => {
-      const theme = useMainStore.getState().theme
-      const id = get().activeId
-      if(theme === 'theme-red'){
+   activeTask: {min: 30, sec: 0, count: 1, name: "", id: -1, running: false, finished: false},
+   setActiveTask: (task) => {
+      set({activeTask: {...task, running: false, finished: false}})
+   },
+   setRunning: (r) => {
+      set(state => {
+         state.activeTask.running = r
+      })
+   },
+   setFinished: (f) => {
+      set(state => {
+         state.activeTask.finished = f
+      })
+   },
+   decMin: () => {
+      set(state => {
+         state.activeTask.sec = 59
+         state.activeTask.min -= 1
+      })
+   },
+   decSec: () => {
+      set(state => {
+         state.activeTask.sec -= 1
+      })
+   },
+   updateTime: () => {
+      const activeTask = get().activeTask
+      if(activeTask.id != -1){
          set(state => {
-            const task = state.tasks.find(task => task.id == id)
-            if(task){
-               state.activeTask = {time: task.time.current.min, count: task.count.current, name: task.name}
+            const t = state.tasks.find(task => task.id === state.activeTask.id)
+            if(t){
+               t.time.current.min = state.activeTask.min
+               t.time.current.sec = state.activeTask.sec
             }
          })
-      }else if(theme === 'theme-teal'){
+      }
+   },
+   updateCount: () => {
+      const activeTask = get().activeTask
+      if(activeTask.id != -1){
          set(state => {
-            state.activeTask = {time: 5, count: 1, name: "ShortBreak"}
-         })
-      }else if (theme === 'theme-blue'){
-         set(state => {
-            state.activeTask = {time: 15, count: 1, name: "LongBreak"}
+            const t = state.tasks.find(task => task.id === state.activeTask.id)
+            if(t){
+               t.time.current.min = t.time.total.min
+               t.time.current.sec = t.time.total.sec
+               t.count.current += 1
+               
+               if(t.count.current == t.count.total){
+                  t.complete = true
+               }
+            }
          })
       }
+
    }
 })
+
 
 
 

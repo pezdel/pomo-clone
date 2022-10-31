@@ -1,6 +1,8 @@
 import { StateCreator } from 'zustand'
 import type { TaskItem } from '../../utils/types'
+import { useMainStore } from '../MainStore'
 import { TaskType } from '..'
+import { useTasksStore } from '..'
 
 interface EditObj {
    name: string;
@@ -9,46 +11,9 @@ interface EditObj {
 }
 
 
-
-
-   //--setActiveId
-   //checks the theme 
-      //if theme-red ~ use the activeIdx THIS state.tasks.find(task => task.id === state.activeId) --reun every task or id change
-      //if theme-teal ~ use shortDefault
-      //if theme-blue ~ use longDefault
-   
-   //--Methods 
-   //start
-   //stop
-   //next
-   //decTime? --first two are effects that actually happen, the bot two are more derived things?
-   //submit?
-
-   //--Store
-   //activeId 
-   //setActiveId 
-   //activeTask---subStore
-   
-
-   //-----------Edit 
-   //--setEditID
-   //check id provided 
-      //if -1 ~ useTemplate 
-      //else ~ use the id to find in TaskList
-   
-   //--Methods 
-   //inc/dec Time 
-   //inc/dec Count 
-   //submit ---if editId == -1 => add else update 
-   //delete ---if editId != -1 && if activeId === editId => change activeId
-   
-   //--Store? 
-   //editId
-   //setEditId
-   //editTask --subStore
-
 export interface TaskSlice {
    id: number
+   setId: () => void;
    tasks: TaskItem[];
    add: (item: EditObj) => void;
    remove: (id: number) => void;
@@ -57,9 +22,20 @@ export interface TaskSlice {
 }
 
 
-export const useTasksSlice: StateCreator<TaskType, [["zustand/immer", never], ["zustand/devtools", never]], [], TaskSlice> = (set) => ({
+
+export const useTasksSlice: StateCreator<TaskType, [
+   ["zustand/subscribeWithSelector", never], 
+   ["zustand/immer", never], 
+   ["zustand/devtools", never]
+   ], [], TaskSlice> 
+= (set, get) => ({
 
    id: 0,
+   setId: () => {
+      set(state => {
+         state.id += 1
+      })
+   },
    tasks: [],
    add: (item) => {
       set(state => {
@@ -71,8 +47,6 @@ export const useTasksSlice: StateCreator<TaskType, [["zustand/immer", never], ["
             complete: false,
             fresh: false,
          })
-         state.activeId = state.id
-         state.id += 1
       })
    },
    remove: (id) => {
@@ -80,6 +54,7 @@ export const useTasksSlice: StateCreator<TaskType, [["zustand/immer", never], ["
          const idx = state.tasks.findIndex(task => task.id === id)
          state.tasks.splice(idx, 1)
       })
+      updateActiveIndex()
    },
    update: (id, item) => {
       set(state => {
@@ -99,10 +74,17 @@ export const useTasksSlice: StateCreator<TaskType, [["zustand/immer", never], ["
             task.complete = !task.complete
          }
       })
-   }
+   },
 })
 
 
+const updateActiveIndex = () => {
+   const tasks = useTasksStore.getState().tasks
+   if(tasks[0] != undefined){
+         useTasksStore.getState().setActiveId(tasks[0].id)
+      }
+   useMainStore.getState().setEditModal(false)
+}
 
 //NON IMMER
 // export const useTasksStore = create<TaskStore>()((set, get) => ({

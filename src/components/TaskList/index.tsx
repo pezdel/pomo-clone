@@ -6,14 +6,14 @@ import { useTasksStore } from '../../stores'
 
 export const TaskList: React.FC = () => {
    const tasks = useTasksStore((state) => state.tasks)
-   const openEdit = useTasksStore((state) => state.setEditTask)
+   const addTask = useTasksStore((state) => state.addTask)
 
    return(
       <>
          <Button 
             text="AddTask"
             className="flex items-center justify-center w-full h-14 bg-dark border border-dashed rounded-md text-gray-200 font-normal"
-            onClick={() => openEdit(-1)} 
+            onClick={addTask} 
             svg={<AddSvg />} 
             />
          <div className="h-60 overflow-auto mt-1">
@@ -21,7 +21,6 @@ export const TaskList: React.FC = () => {
                <TaskListItem 
                   key={i} 
                   item={item} 
-                  openEdit={openEdit}
                   />
             )}
          </div>

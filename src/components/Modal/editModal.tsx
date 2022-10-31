@@ -8,23 +8,19 @@ import shallow from 'zustand/shallow'
 
 export const EditModal: React.FC = () => {
    const task = useTasksStore((state) => state.editTask)
-   const editId = useTasksStore((state) => state.editId)
-   const [incCount, decCount] = useTasksStore((state) => [state.incCount, state.decCount], shallow)
-   const [incTime, decTime] = useTasksStore((state) => [state.incTime, state.decTime], shallow)
-   const { setName, add, update } = useTasksStore((state) => ({setName: state.setName, add: state.add, update: state.update}), shallow)
    const setEditModal = useMainStore((state) => state.setEditModal)
+   const { setName, incCount, decCount, incTime, decTime, submit } = useTasksStore((state) => ({
+      setName: state.setName,
+      incCount: state.incCount,
+      decCount: state.decCount,
+      incTime: state.incTime,
+      decTime: state.decTime,
+      submit: state.submit
+   }), shallow)
 
-   const submit = () => {
-      if(editId == -1){
-         add(task)
-      }else{
-         update(editId, task)
-      }
-      setEditModal(false)
-   }
 
    return(
-      <ModalTemplate close={close}>
+      <ModalTemplate close={setEditModal}>
          <div className='h-64 w-80 border-2 flex flex-col rounded-lg justify-between bg-white'>
             <input placeholder={task.name} onChange={(e) => setName(e.target.value)} className="w-full shadow-xl rounded-lg h-14 form-control block text-base " />
 
@@ -34,7 +30,7 @@ export const EditModal: React.FC = () => {
             </div>
 
             <div className="flex justify-between bg-gray-300 shadow-lg">
-               {/* {!edit.fresh && <DeleteButton id={edit.id} close={close} />} */}
+               {task.id != -1 && <DeleteButton id={task.id} />}
                <div className='flex w-full h-14 pr-2 justify-end items-center'>
                   <Button 
                      className="h-9 w-16 mx-1 text-gray-600 text-sm font-medium"
@@ -43,7 +39,7 @@ export const EditModal: React.FC = () => {
                      />
                   <Button 
                      className="h-8 w-16 mx-1 bg-gray-800 text-gray-200 rounded-lg text-sm font-normal hover:bg-gray-900"
-                     onClick={submit}
+                     onClick={() => submit(task)}
                      text="Save"
                      />
                </div>
@@ -78,30 +74,19 @@ const Counter: React.FC<{inc: () => void, dec: () => void, val: number, type: st
                   />
             </div>
          </div>
-         </>
+      </>
    )
 }
 
 
 
 
-//figure this one out
-const DeleteButton: React.FC<{id: number, close: () => void}> = ({id, close}) => {
-   const tasks = useTasksStore((state) => state.tasks)
-   const removeTask = useTasksStore((state) => state.remove)
-   // const [activeId, setActiveId] = useActiveStore((state) => [state.id, state.setId], shallow)
-
-   const handleDelete = () => {
-      // if(activeId === id && tasks[0] != undefined){
-      //    setActiveId(tasks[0].id)
-      // }
-      removeTask(id)
-      close()
-   }
+const DeleteButton: React.FC<{id: number}> = ({id}) => {
+   const remove = useTasksStore((state) => state.remove)
 
    return(
       <div className="flex justify-center items-center pl-2">
-         <button onClick={handleDelete} className="bg-red-900 flex items-center justify-center h-8 w-16 text-gray-200 rounded-lg text-sm font-normal hover:bg-red-800 ">
+         <button onClick={() => remove(id)} className="bg-red-900 flex items-center justify-center h-8 w-16 text-gray-200 rounded-lg text-sm font-normal hover:bg-red-800 ">
             Delete
          </button>
       </div>
