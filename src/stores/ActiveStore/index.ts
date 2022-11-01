@@ -1,17 +1,12 @@
 import { StateCreator } from 'zustand'
-import { useMainStore } from '../MainStore'
 import { TaskType } from '..';
-import { useTasksStore } from '..'
 
  
 interface ActiveTask {
    id: number;
    min: number;
    sec: number;
-   count: number; 
    name: string;
-   running?: boolean;
-   finished?: boolean;
    complete?: boolean;
 }
 
@@ -20,12 +15,15 @@ export interface ActiveSlice{
    setActiveId: (id: number) => void;
    activeTask: ActiveTask; 
    setActiveTask: (task: ActiveTask) => void;
+   running: boolean;
    setRunning: (r: boolean) => void;
+   finished: boolean;
    setFinished: (f: boolean) => void;
+
    decSec: () => void;
    decMin: () => void;
-   updateTime: () => void;
-   updateCount: () => void;
+   updateTime: () => void; 
+   updateCount: () => void; 
 }
 
 
@@ -39,20 +37,21 @@ export const useActiveSlice: StateCreator<TaskType, [
    setActiveId: (id) => {
       set({activeId: id})
    },
-   activeTask: {min: 30, sec: 0, count: 1, name: "", id: -1, running: false, finished: false},
+   activeTask: {min: 30, sec: 0, count: 1, name: "", id: -1},
    setActiveTask: (task) => {
-      set({activeTask: {...task, running: false, finished: false}})
+      set({activeTask: task})
+      set({finished: false})
    },
+
+   running: false,
    setRunning: (r) => {
-      set(state => {
-         state.activeTask.running = r
-      })
+      set({running: r})
    },
+   finished: false,
    setFinished: (f) => {
-      set(state => {
-         state.activeTask.finished = f
-      })
+      set({finished: f})
    },
+
    decMin: () => {
       set(state => {
          state.activeTask.sec = 59

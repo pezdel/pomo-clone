@@ -1,8 +1,8 @@
 import { Button } from '../utils'
 import { useEffect } from 'react'
-import { useTimer } from './useTimer'
 import { useTasksStore, useMainStore } from '../../stores'
 import { TaskItem } from '../../utils/types'
+import shallow from 'zustand/shallow'
 
 
 export const Timer: React.FC = () => {
@@ -15,15 +15,15 @@ export const Timer: React.FC = () => {
    const updateTime = useTasksStore((state) => state.updateTime)
    const updateCount = useTasksStore((state) => state.updateCount)
    const setTheme = useMainStore((state) => state.setTheme)
-   const setRunning = useTasksStore((state) => state.setRunning)
-   const setFinished = useTasksStore((state) => state.setFinished)
+   const [running, setRunning] = useTasksStore((state) => [state.running, state.setRunning], shallow)
+   const [finished, setFinished] = useTasksStore((state) => [state.finished, state.setFinished], shallow)
 
    
 
 
    useEffect(() => {
       let interval
-      if(time.running){
+      if(running){
          interval = setInterval(() => {
             if(time.sec === 0 && time.min === 0){
                setRunning(false)
@@ -35,14 +35,14 @@ export const Timer: React.FC = () => {
                decSec()
             )
          }, 1000)
-      }else if(!time.running && time.min !== 0){
+      }else if(!running && time.min !== 0){
          clearInterval(interval)
       }
       return() => clearInterval(interval)
-   },[time.running, time.sec])
+   },[running, time.sec])
 
    useEffect(() => {
-      if(time.finished){
+      if(finished){
          updateCount()
          if(theme == 'theme-red'){
             //logic to handle the every other break or something?
@@ -51,13 +51,13 @@ export const Timer: React.FC = () => {
             setTheme('theme-red')
          }
       }
-   },[time.finished])
+   },[finished])
 
    useEffect(() => {
-      if(!time.running){
+      if(!running){
          updateTime()
       }
-   },[time.running])
+   },[running])
    
 
    return(
@@ -73,13 +73,13 @@ export const Timer: React.FC = () => {
          </div>
 
          <div className="flex flex-col justify-center items-center h-full pt-2">
-            {!time.running && <Button 
+            {!running && <Button 
                text="Start"
                onClick={() => setRunning(true)}
                className="bg-white text-primary text-2xl h-12 w-40 rounded-md font-semibold"
                />
             }
-            {time.running && <Button 
+            {running && <Button 
                text="Stop"
                onClick={() => setRunning(false)}
                className="bg-dark text-white outline outline-2 text-2xl h-12 w-40 rounded-md font-semibold" 
