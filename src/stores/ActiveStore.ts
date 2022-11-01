@@ -1,29 +1,15 @@
 import { StateCreator } from 'zustand'
-import { TaskType } from '..';
+import { TaskType } from '.';
+import { SubTask } from '../utils/types';
 
  
-interface ActiveTask {
-   id: number;
-   min: number;
-   sec: number;
-   name: string;
-   complete?: boolean;
-}
 
 export interface ActiveSlice{
-   activeId: number;
-   setActiveId: (id: number) => void;
-   activeTask: ActiveTask; 
-   setActiveTask: (task: ActiveTask) => void;
-   running: boolean;
-   setRunning: (r: boolean) => void;
-   finished: boolean;
-   setFinished: (f: boolean) => void;
-
+   activeTask: SubTask; 
+   setActiveTask: (task: SubTask) => void;
    decSec: () => void;
    decMin: () => void;
-   updateTime: () => void; 
-   updateCount: () => void; 
+   incCountActive: () => void;
 }
 
 
@@ -32,24 +18,11 @@ export const useActiveSlice: StateCreator<TaskType, [
    ["zustand/immer", never], 
    ["zustand/devtools", never]
    ], [], ActiveSlice> 
-= (set, get) => ({
-   activeId: 0,
-   setActiveId: (id) => {
-      set({activeId: id})
-   },
-   activeTask: {min: 30, sec: 0, count: 1, name: "", id: -1},
+= (set) => ({
+   
+   activeTask: {min: 30, sec: 0, count: 1, name: "", id: -1, complete: false},
    setActiveTask: (task) => {
       set({activeTask: task})
-      set({finished: false})
-   },
-
-   running: false,
-   setRunning: (r) => {
-      set({running: r})
-   },
-   finished: false,
-   setFinished: (f) => {
-      set({finished: f})
    },
 
    decMin: () => {
@@ -63,35 +36,10 @@ export const useActiveSlice: StateCreator<TaskType, [
          state.activeTask.sec -= 1
       })
    },
-   updateTime: () => {
-      const activeTask = get().activeTask
-      if(activeTask.id != -1){
-         set(state => {
-            const t = state.tasks.find(task => task.id === state.activeTask.id)
-            if(t){
-               t.time.current.min = state.activeTask.min
-               t.time.current.sec = state.activeTask.sec
-            }
-         })
-      }
-   },
-   updateCount: () => {
-      const activeTask = get().activeTask
-      if(activeTask.id != -1){
-         set(state => {
-            const t = state.tasks.find(task => task.id === state.activeTask.id)
-            if(t){
-               t.time.current.min = t.time.total.min
-               t.time.current.sec = t.time.total.sec
-               t.count.current += 1
-               
-               if(t.count.current == t.count.total){
-                  t.complete = true
-               }
-            }
-         })
-      }
-
+   incCountActive: () => {
+      set(state => {
+         state.activeTask.count += 1
+      })
    }
 })
 

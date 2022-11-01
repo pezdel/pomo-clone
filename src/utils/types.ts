@@ -10,8 +10,6 @@ export interface TaskItem {
    count: {current: number, total: number};
    complete: boolean;
    fresh: boolean;
-   running?: boolean;
-   finished?: boolean;
 }
 
 
@@ -19,4 +17,13 @@ export interface IncDec {
   inc: () => void;
   dec: () => void;
   val: number
+}
+
+export interface SubTask {
+   min: number;
+   sec: number
+   count: number;
+   name: string;
+   id: number;
+   complete: boolean;
 }

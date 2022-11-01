@@ -9,24 +9,24 @@ import shallow from 'zustand/shallow'
 export const EditModal: React.FC = () => {
    const task = useTasksStore((state) => state.editTask)
    const setEditModal = useMainStore((state) => state.setEditModal)
-   const { setName, incCount, decCount, incTime, decTime, submit } = useTasksStore((state) => ({
-      setName: state.setName,
+   const { changeName, incCount, decCount, incTime, decTime } = useTasksStore((state) => ({
+      changeName: state.changeName,
       incCount: state.incCount,
       decCount: state.decCount,
       incTime: state.incTime,
       decTime: state.decTime,
-      submit: state.submit
    }), shallow)
+   const saveEdit = useTasksStore((state) => state.saveEdit)
 
 
    return(
       <ModalTemplate close={setEditModal}>
          <div className='h-64 w-80 border-2 flex flex-col rounded-lg justify-between bg-white'>
-            <input placeholder={task.name} onChange={(e) => setName(e.target.value)} className="w-full shadow-xl rounded-lg h-14 form-control block text-base " />
+            <input placeholder={task.name} onChange={(e) => changeName(e.target.value)} className="w-full shadow-xl rounded-lg h-14 form-control block text-base " />
 
             <div className="flex w-full justify-between px-6 ">
                <Counter type="Count" inc={incCount} dec={decCount} val={task.count} />
-               <Counter type="Time" inc={incTime} dec={decTime} val={task.time} />
+               <Counter type="Time" inc={incTime} dec={decTime} val={task.min} />
             </div>
 
             <div className="flex justify-between bg-gray-300 shadow-lg">
@@ -39,7 +39,7 @@ export const EditModal: React.FC = () => {
                      />
                   <Button 
                      className="h-8 w-16 mx-1 bg-gray-800 text-gray-200 rounded-lg text-sm font-normal hover:bg-gray-900"
-                     onClick={() => submit(task)}
+                     onClick={() => saveEdit(task.id, task)}
                      text="Save"
                      />
                </div>
@@ -82,8 +82,11 @@ const Counter: React.FC<{inc: () => void, dec: () => void, val: number, type: st
 
 
 const DeleteButton: React.FC<{id: number}> = ({id}) => {
-   const remove = useTasksStore((state) => state.remove)
+   // const remove = useTasksStore((state) => state.remove)
 
+   const remove = (id: number) => {
+      console.log('lol')
+   }
    return(
       <div className="flex justify-center items-center pl-2">
          <button onClick={() => remove(id)} className="bg-red-900 flex items-center justify-center h-8 w-16 text-gray-200 rounded-lg text-sm font-normal hover:bg-red-800 ">

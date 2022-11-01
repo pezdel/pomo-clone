@@ -6,14 +6,14 @@ import { useTasksStore } from '../../stores'
 
 export const TaskList: React.FC = () => {
    const tasks = useTasksStore((state) => state.tasks)
-   const addTask = useTasksStore((state) => state.addTask)
+   const setEditTask = useTasksStore((state) => state.setEditTask)
 
    return(
       <>
          <Button 
             text="AddTask"
             className="flex items-center justify-center w-full h-14 bg-dark border border-dashed rounded-md text-gray-200 font-normal"
-            onClick={addTask} 
+            onClick={() => setEditTask(-1)} 
             svg={<AddSvg />} 
             />
          <div className="h-60 overflow-auto mt-1">

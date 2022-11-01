@@ -1,6 +1,5 @@
 import create from 'zustand'
-import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
-import { useTasksStore } from '..';
+import { devtools, subscribeWithSelector } from 'zustand/middleware'
 
 
 export interface MainStore{

@@ -3,11 +3,6 @@ import { Navbar, TimerHeader, Timer, TaskList, SettingModal, EditModal, TimerTex
 import { useMainStore } from '../stores'
 import shallow from 'zustand/shallow'
 
-//so plan for today is to finish 
-//--refactor timer / the hook we use for that ---still left over
-//--start in on setting modal and figure that part out
-//--push to vercel
-
 
 const Home: NextPage = () => {
    const [settingModal, editModal] = useMainStore((state) => [state.settingModal, state.editModal], shallow)

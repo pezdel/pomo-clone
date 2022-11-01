@@ -3,6 +3,8 @@ import { useMainStore } from './MainStore'
 import { useTasksSlice, TaskSlice } from './TasksStore'
 import { useEditSlice, EditSlice } from './EditStore'
 import { useActiveSlice, ActiveSlice } from './ActiveStore'
+import { useIdSlice, IdSlice } from './IdStore'
+import { useRunningSlice, RunningSlice } from './RunningStore'
 import { immer } from 'zustand/middleware/immer'
 import { devtools, subscribeWithSelector } from 'zustand/middleware'
 import { activeDefault, longDefault, shortDefault } from '../utils/utils'
@@ -11,7 +13,7 @@ export {
   useMainStore,
 };
 
-export type TaskType = TaskSlice & EditSlice & ActiveSlice
+export type TaskType = TaskSlice & EditSlice & ActiveSlice & IdSlice & RunningSlice
 
 
 export const useTasksStore = create<TaskType>()(
@@ -22,6 +24,8 @@ export const useTasksStore = create<TaskType>()(
                ...useTasksSlice(...a),
                ...useEditSlice(...a),
                ...useActiveSlice(...a),
+               ...useIdSlice(...a),
+               ...useRunningSlice(...a),
             }),{name: "TaskStore"}
          )
       )
@@ -43,6 +47,7 @@ const setActive = () => {
             min: task.time.current.min, 
             sec: task.time.current.sec, 
             name: task.name, 
+            count: task.count.current,
             id: task.id, 
             complete: task.complete,
          })
