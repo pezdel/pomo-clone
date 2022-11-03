@@ -60,7 +60,7 @@ export const useSettingsStore = create<SettingSlice>()(
                      }
                   })
                }
-            })
+            }),{name: "Settings"}
          )
       )
    )

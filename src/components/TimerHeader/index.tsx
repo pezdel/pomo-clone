@@ -8,20 +8,20 @@ export const TimerHeader: React.FC = () => {
 
    return(
       <>
-         <div className="flex w-full justify-between px-12 py-3">
+         <div className="flex w-full justify-between px-12 py-3 ">
             <Button 
                text="Pomodoro"
-               className={`text-sm font-medium px-2.5 py-1 rounded-md ${theme == 'theme-red' ? ' bg-dark' : ' '}`} 
+               className={`text-sm font-medium px-2.5 py-1 rounded-md transition ease-in-out delay-150 ${theme == 'theme-red' ? ' bg-dark' : ' '}`} 
                onClick={() => setTheme('theme-red')}
                />
             <Button
                text="Short Break"
-               className={`text-sm font-medium px-2.5 py-1 rounded-md ${theme == 'theme-teal' ? ' bg-dark' : ' '}`} 
+               className={`text-sm font-medium px-2.5 py-1 rounded-md transition ease-in-out delay-150 ${theme == 'theme-teal' ? ' bg-dark' : ' '}`} 
                onClick={() => setTheme('theme-teal')}
                />
             <Button
                text="Long Break"
-               className={`text-sm font-medium px-2.5 py-1 rounded-md ${theme == 'theme-blue' ? ' bg-dark' : ' '}`} 
+               className={`text-sm font-medium px-2.5 py-1 rounded-md transition ease-in-out delay-150 ${theme == 'theme-blue' ? ' bg-dark' : ' '}`} 
                onClick={() => setTheme('theme-blue')}
                />
          </div>

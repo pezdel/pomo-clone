@@ -18,6 +18,7 @@ export const EditModal: React.FC = () => {
    }), shallow)
    const saveEdit = useTasksStore((state) => state.saveEdit)
 
+   
 
    return(
       <ModalTemplate close={setEditModal}>
@@ -82,11 +83,8 @@ const Counter: React.FC<{inc: () => void, dec: () => void, val: number, type: st
 
 
 const DeleteButton: React.FC<{id: number}> = ({id}) => {
-   // const remove = useTasksStore((state) => state.remove)
+   const remove = useTasksStore((state) => state.remove)
 
-   const remove = (id: number) => {
-      console.log('lol')
-   }
    return(
       <div className="flex justify-center items-center pl-2">
          <button onClick={() => remove(id)} className="bg-red-900 flex items-center justify-center h-8 w-16 text-gray-200 rounded-lg text-sm font-normal hover:bg-red-800 ">

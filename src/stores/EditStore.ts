@@ -28,7 +28,7 @@ export const useEditSlice: StateCreator<TaskType, [
    setEditTask: (id) => {
       if(id == -1){
          set(state => {
-            state.editTask = {min: 10, sec: 0, count: 1, name: "placeholder", id: -1, complete: false}
+            state.editTask = {min: 10, sec: 0, count: 1, name: "What are you doing?", id: -1, complete: false}
          })
       }else{
          const item = get().tasks.find(task => task.id === id) as TaskItem

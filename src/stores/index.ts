@@ -41,7 +41,6 @@ export const setActive = () => {
    const tasks = useTasksStore.getState().tasks
    const setActiveTask = useTasksStore.getState().setActiveTask
    const settings = useSettingsStore.getState().settings
-   console.log(settings)
    
    if(theme === 'theme-red'){
       const task = tasks.find(task => task.id === id)

@@ -6,14 +6,14 @@ import { useMainStore } from '../../stores'
 
 export const Navbar: React.FC = () => {
    const setSettingModal = useMainStore((state) => state.setSettingModal)
-   const baseStyle = 'inline-block flex items-center mx-1 px-3 py-1 text-white font-light text-xs leading-tight rounded-md hover:bg-red-400 transition duration-150 ease-in-out '
+   const baseStyle = 'inline-block flex items-center mx-1 px-3 py-1 text-white font-light text-xs leading-tight rounded-md hover:bg-red-400 transition ease-in-out delay-150'
 
    return (
       <>
          <div className="w-72">
             <Button 
-               text='PomoReact' 
-               className={`${baseStyle} + hover:bg-primary text-lg bg-primary font-semibold`}
+               text='PomoClone' 
+               className={`${baseStyle} + hover:bg-primary `}
                />
          </div>
          <div className="flex pr-3 w-60 justify-end">

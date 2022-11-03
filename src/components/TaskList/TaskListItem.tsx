@@ -10,7 +10,7 @@ export const TaskListItem: React.FC<{item: TaskItem}> = ({item}) => {
    const setEditTask = useTasksStore((state) => state.setEditTask)
 
    return(
-      <div className={`flex items-center bg-white border-2 text-gray-500 h-12 my-1 rounded-md px-2 ${activeId == item.id ? ' bg-red-200 ' : ''}`}>
+      <div className={`flex items-center bg-white text-gray-500 h-12 my-1 rounded-md px-2  ${activeId == item.id ? ' bg-red-200 ' : ''}`}>
          <Button 
             onClick={() => toggleComplete(item.id)}
             svg={item.complete ? <CheckSvg /> : <NotCheckSvg />} 

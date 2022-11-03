@@ -12,6 +12,7 @@ export interface TaskSlice {
    saveActive: (id: number, item: SubTask) => void;
    resetTime: (id: number) => void;
    toggleComplete: (id: number) => void;
+   remove: (id: number) => void;
 }
 
 
@@ -34,7 +35,7 @@ export const useTasksSlice: StateCreator<TaskType, [
          set(state => {
             state.tasks.push({
                id: id,
-               name: item.name,
+               name: item.name === 'What are you doing?' ? 'Task '+id : item.name,
                time: {current: {min: item.min, sec: 0}, total: {min: item.min, sec: 0}},
                count: {current: 0, total: item.count},
                complete: false,
@@ -49,6 +50,7 @@ export const useTasksSlice: StateCreator<TaskType, [
             if(task){
                task.name = item.name
                task.time.total = {min: item.min, sec: item.sec},
+               task.time.current = {min: item.min, sec: item.sec},
                task.count.total = item.count
             }
          })
@@ -80,8 +82,20 @@ export const useTasksSlice: StateCreator<TaskType, [
          const task = state.tasks.find(task => task.id === id)
          if(task) {
             task.complete = !task.complete
+            if(task.complete){
+               task.count.current = task.count.total
+            }else{
+               task.count.current = 0
+            }
          }
       })
+   },
+   remove: (id) => {
+      set(state => {
+         const idx = state.tasks.findIndex(task => task.id === id)
+         state.tasks.splice(idx, 1)
+      })
+      useMainStore.getState().setEditModal(false)
    }
 })
 
