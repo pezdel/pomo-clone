@@ -22,7 +22,7 @@ const Home: NextPage = () => {
                <div className='w-128'>
                   <TimerText />
                </div>
-               <div className='bg-red-200 w-screen flex justify-center'>
+               <div className='bg-primary w-screen flex justify-center'>
                   <TaskList />
                </div>
             </div>
