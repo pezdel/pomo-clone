@@ -15,7 +15,7 @@ const Home: NextPage = () => {
                <div className="flex pt-3 pb-10">
                   <Navbar />
                </div>
-               <div className="flex flex-col w-128 h-72 bg-light rounded-md transition ease-in-out delay-150">
+               <div className="flex flex-col w-128 h-80 bg-light rounded-md transition ease-in-out delay-150">
                   <TimerHeader />
                   <Timer />
                </div>

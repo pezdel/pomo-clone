@@ -49,7 +49,7 @@ export const Timer: React.FC = () => {
       <>
          {task.complete ? <TaskComplete /> : 
          <>
-         <div className="text-8xl font-medium flex justify-center h-32 pt-3 ">
+         <div className="text-8xl font-medium flex justify-center h-32 pt-7 ">
             {task.min == 0 ? "00" : 
              task.min < 10 ? "0" + task.min : 
              task.min}
