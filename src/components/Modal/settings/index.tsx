@@ -1,27 +1,18 @@
 import { useEffect } from 'react'
-import { useMainStore } from '../../stores'
-import { DownSvg, UpSvg, SaveSvg } from '../../utils/svg'
-import { ModalTemplate } from '../utils'
-import { Button } from '../utils'
-import { useSettingsStore } from '../../stores/SettingStore'
+import { settingsColors } from '../../../utils/utils'
+import { useMainStore } from '../../../stores'
+import { DownSvg, UpSvg, SaveSvg } from '../../../utils/svg'
+import { ModalTemplate } from '../../utils'
+import { Button } from '../../utils'
+import { useSettingsStore } from '../../../stores/SettingStore'
 import shallow from 'zustand/shallow'
-
-
 
 
 export const SettingModal: React.FC = () => {
    const [settings, setSettings] = useSettingsStore((state) => [state.settings, state.setSettings], shallow)
    const [items, setItems] = useSettingsStore((state) => [state.items, state.setItems], shallow)
    const setSettingModal = useMainStore((state) => state.setSettingModal)
-
-   // const red = "#d95550"
-   // const teal = "#4c9195"
-   // const blue = "#457ca3"
-
-   const red = "#dd6662"
-   const teal = "#5e9ca0"
-   const blue = "#5889ac"
-
+   
    useEffect(() => {
       setItems(settings)
    },[])
@@ -34,7 +25,6 @@ export const SettingModal: React.FC = () => {
       })
       setSettingModal(false)
    }
-      
 
    return(
       <ModalTemplate close={() => setSettingModal(false)}>
@@ -42,9 +32,9 @@ export const SettingModal: React.FC = () => {
             <h1 className="bg-white shadow-lg rounded-tr-md rounded-tl-md flex justify-center items-center h-10 text-xl underline font-semibold">
                Time Settings
             </h1>
-            <SettingItem item={items.main} color={red} />
-            <SettingItem item={items.short} color={teal} />
-            <SettingItem item={items.long} color={blue} />
+            <SettingItem item={items.main} color={settingsColors.red} />
+            <SettingItem item={items.short} color={settingsColors.teal} />
+            <SettingItem item={items.long} color={settingsColors.blue} />
             <div className="flex items-center justify-center bg-gray-400 w-full h-14 rounded-bl-md rounded-br-md border-t-2">
                <Button 
                   className="flex items-center px-4 py-1.5 rounded-md  font-semibold"

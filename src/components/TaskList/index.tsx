@@ -1,12 +1,12 @@
 import { Button } from '../utils'
 import { TaskListItem } from './TaskListItem'
 import { AddSvg } from '../../utils/svg'
-import { useTasksStore } from '../../stores'
+import { useTasksStore, useEditStore } from '../../stores'
 
 
 export const TaskList: React.FC = () => {
    const tasks = useTasksStore((state) => state.tasks)
-   const setEditTask = useTasksStore((state) => state.setEditTask)
+   const setEditTask = useEditStore((state) => state.setTask)
 
    return(
       <>

@@ -1,5 +1,5 @@
-import { EditModal } from './Modal/editModal'
-import { SettingModal } from './Modal/settingModal'
+import { EditModal } from './Modal/edit'
+import { SettingModal } from './Modal/settings'
 import { Navbar } from './Navbar'
 import { TaskList } from './TaskList'
 import { Timer } from './Timer'

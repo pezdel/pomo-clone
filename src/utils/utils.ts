@@ -1,8 +1,6 @@
-import { TaskItem } from "./types"
+import { SettingsColors, SubTask } from "./types";
 
 
-export const sampleList: TaskItem[] = [
-]
 
 export const activeDefault = {
    id: -1,
@@ -38,12 +36,19 @@ export const longDefault = {
    name: "Long Break",
 };
 
-export const editDefault = {
+
+export const editDefault: SubTask = {
    id: -1,
+   min: 10, 
+   sec: 0,
+   count: 1, 
    name: "What are you doing?",
-   count: { current: 0, total: 1 },
-   time: { current: { min: 30, sec: 0 }, total: { min: 30, sec: 0 } },
-   complete: false,
-   fresh: true,
-};
+   complete: false
+}
+
+export const settingsColors: SettingsColors = {
+   red: "#dd6662",
+   teal: "#5e9ca0",
+   blue: "#5889ac",
+}
 

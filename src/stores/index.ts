@@ -1,7 +1,7 @@
 import create from 'zustand'
 import { useMainStore } from './MainStore'
+import { useEditStore } from './EditStore'
 import { useTasksSlice, TaskSlice } from './TasksStore'
-import { useEditSlice, EditSlice } from './EditStore'
 import { useActiveSlice, ActiveSlice } from './ActiveStore'
 import { useIdSlice, IdSlice } from './IdStore'
 import { useRunningSlice, RunningSlice } from './RunningStore'
@@ -11,10 +11,11 @@ import { defaultTask } from '../utils/utils'
 import { useSettingsStore } from './SettingStore'
 
 export {
-  useMainStore,
+   useMainStore,
+   useEditStore,
 };
 
-export type TaskType = TaskSlice & EditSlice & ActiveSlice & IdSlice & RunningSlice
+export type TaskType = TaskSlice & ActiveSlice & IdSlice & RunningSlice
 
 
 export const useTasksStore = create<TaskType>()(
@@ -23,7 +24,7 @@ export const useTasksStore = create<TaskType>()(
          devtools(
             (...a) => ({
                ...useTasksSlice(...a),
-               ...useEditSlice(...a),
+               // ...useEditSlice(...a),
                ...useActiveSlice(...a),
                ...useIdSlice(...a),
                ...useRunningSlice(...a),
