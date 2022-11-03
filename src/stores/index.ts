@@ -7,7 +7,8 @@ import { useIdSlice, IdSlice } from './IdStore'
 import { useRunningSlice, RunningSlice } from './RunningStore'
 import { immer } from 'zustand/middleware/immer'
 import { devtools, subscribeWithSelector } from 'zustand/middleware'
-import { activeDefault, longDefault, shortDefault } from '../utils/utils'
+import { defaultTask } from '../utils/utils'
+import { useSettingsStore } from './SettingStore'
 
 export {
   useMainStore,
@@ -34,11 +35,13 @@ export const useTasksStore = create<TaskType>()(
 
 
 
-const setActive = () => {
+export const setActive = () => {
    const id = useTasksStore.getState().activeId
    const theme = useMainStore.getState().theme
    const tasks = useTasksStore.getState().tasks
    const setActiveTask = useTasksStore.getState().setActiveTask
+   const settings = useSettingsStore.getState().settings
+   console.log(settings)
    
    if(theme === 'theme-red'){
       const task = tasks.find(task => task.id === id)
@@ -52,16 +55,17 @@ const setActive = () => {
             complete: task.complete,
          })
       }else{
-         setActiveTask(activeDefault)
+         setActiveTask({...defaultTask, min: settings.main, name: ""})
       }
    }else if(theme === 'theme-teal'){
-      setActiveTask(shortDefault)
+      setActiveTask({...defaultTask, min: settings.short, name: "Short Break"})
    }else if(theme === 'theme-blue'){
-      setActiveTask(longDefault)
+      setActiveTask({...defaultTask, min: settings.long, name: "Long Break"})
    }
 }
 
 
+useSettingsStore.subscribe((state) => state.settings, setActive)
 useTasksStore.subscribe((state) => state.tasks.find(task => task.id === state.activeId), setActive)
 useMainStore.subscribe((state) => state.theme, setActive)
 

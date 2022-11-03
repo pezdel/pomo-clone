@@ -12,6 +12,14 @@ export const activeDefault = {
    complete: false,
    name: "", 
 }
+export const defaultTask ={
+   id: -1,
+   min: 30,
+   sec: 0,
+   count: 1,
+   name: "",
+   complete: false,
+}
 
 export const shortDefault = {
    id: -1,

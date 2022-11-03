@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
+import { useEffect } from 'react'
 import { Navbar, TimerHeader, Timer, TaskList, SettingModal, EditModal, TimerText } from '../components'
-import { useMainStore } from '../stores'
+import { setActive, useMainStore } from '../stores'
 import shallow from 'zustand/shallow'
+import { useSettingsStore } from "../stores/SettingStore";
 
 
 const Home: NextPage = () => {

@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand'
-import { TaskType } from '.';
+import { TaskType, useTasksStore } from '.';
 import { SubTask } from '../utils/types';
 
  
@@ -18,7 +18,7 @@ export const useActiveSlice: StateCreator<TaskType, [
    ["zustand/immer", never], 
    ["zustand/devtools", never]
    ], [], ActiveSlice> 
-= (set) => ({
+= (set, get) => ({
    
    activeTask: {min: 30, sec: 0, count: 1, name: "", id: -1, complete: false},
    setActiveTask: (task) => {
