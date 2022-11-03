@@ -52,7 +52,3 @@ export const SettingModal: React.FC = () => {
       </ModalTemplate>
    )
 }
-
-
-
-

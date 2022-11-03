@@ -16,7 +16,7 @@ export const TaskList: React.FC = () => {
             onClick={() => setEditTask(-1)} 
             svg={<AddSvg />} 
             />
-         <div className="h-60 overflow-auto mt-1">
+         <div className="h-60 overflow-auto mt-2">
             {tasks.map((item, i) => 
                <TaskListItem 
                   key={i} 
