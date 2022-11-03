@@ -8,7 +8,7 @@ interface Setting {
    short: number;
    long: number;
 }
-interface SettingItem{
+export interface Item{
    value: number;
    name: string;
    text: string;
@@ -17,9 +17,9 @@ interface SettingSlice {
    settings: Setting
    setSettings: (s: Setting) => void;
    items: {
-      main: SettingItem;
-      short: SettingItem;
-      long: SettingItem;
+      main: Item;
+      short: Item;
+      long: Item;
    }
    setItems: (s: Setting) => void;
    inc: (name: string) => void;

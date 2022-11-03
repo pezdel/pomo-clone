@@ -24,7 +24,6 @@ export const useTasksStore = create<TaskType>()(
          devtools(
             (...a) => ({
                ...useTasksSlice(...a),
-               // ...useEditSlice(...a),
                ...useActiveSlice(...a),
                ...useIdSlice(...a),
                ...useRunningSlice(...a),
