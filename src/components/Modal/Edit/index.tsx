@@ -6,6 +6,7 @@ import { Counter } from './Counter'
 import { DeleteButton } from './DeleteButton'
 
 
+//TODO: change counter props
 export const EditModal: React.FC = () => {
    const { task, changeName, incCount, decCount, incTime, decTime } = useEditStore()
    const setEditModal = useMainStore((state) => state.setEditModal)

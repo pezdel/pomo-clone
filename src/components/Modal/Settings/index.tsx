@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { settingsColors } from '../../../utils/utils'
-import { useMainStore } from '../../../stores'
+import { useMainStore, useSettingsStore } from '../../../stores'
 import { SaveSvg } from '../../../utils/svg'
 import { ModalTemplate } from '../Template'
 import { Button } from '../../utils'
-import { useSettingsStore } from '../../../stores/SettingStore'
 import { SettingItem } from './SettingItem'
 import shallow from 'zustand/shallow'
 

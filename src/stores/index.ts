@@ -13,6 +13,7 @@ import { useSettingsStore } from './SettingStore'
 export {
    useMainStore,
    useEditStore,
+   useSettingsStore,
 };
 
 export type TaskType = TaskSlice & ActiveSlice & IdSlice & RunningSlice
