@@ -12,9 +12,9 @@ export const SettingItem: React.FC<ISettingItem> = ({item, color}) => {
    const dec = useSettingsStore((state) => state.dec)
 
    return(
-      <div style={{backgroundColor: color}} className="flex justify-between h-16 shadow-lg px-3 border-t-2 rounded-md">
+      <div style={{backgroundColor: color}} className="flex justify-between h-20 shadow-lg px-3 border-t-2 rounded-md">
          <div className="flex justify-center items-center w-full flex-col">
-            <div>
+            <div className="text-xl">
                {item.text}:
             </div>
          </div>
@@ -23,7 +23,7 @@ export const SettingItem: React.FC<ISettingItem> = ({item, color}) => {
                className="flex justify-center border-2 shadow-lg px-1.5 py-1 bg-white"
                svg={<DownSvg />} 
                onClick={() => dec(item.name)} />            
-            <div className="px-1.5 w-14 flex justify-center text-white text-xl">
+            <div className="px-1.5 w-16 flex justify-center text-white text-xl">
                {item.value}:00
             </div>
             <Button 

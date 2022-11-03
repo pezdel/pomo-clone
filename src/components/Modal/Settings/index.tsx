@@ -28,21 +28,21 @@ export const SettingModal: React.FC = () => {
 
    return(
       <ModalTemplate close={() => setSettingsModal(false)}>
-         <div className='w-72 bg-white rounded-md border border-2 '>
-            <h1 className="bg-white shadow-lg rounded-tr-md rounded-tl-md flex justify-center items-center h-10 text-xl underline font-semibold">
+         <div className='w-96  bg-white rounded-md border border-2 '>
+            <h1 className="bg-white shadow-lg rounded-tr-md rounded-tl-md flex justify-center items-center h-16 text-xl underline font-semibold">
                Time Settings
             </h1>
             <SettingItem item={items.main} color={settingsColors.red} />
             <SettingItem item={items.short} color={settingsColors.teal} />
             <SettingItem item={items.long} color={settingsColors.blue} />
-            <div className="flex items-center justify-center bg-gray-400 w-full h-14 rounded-bl-md rounded-br-md border-t-2">
+            <div className="flex items-center justify-center bg-gray-400 w-full h-16 rounded-bl-md rounded-br-md border-t-2">
                <Button 
-                  className="flex items-center px-4 py-1.5 rounded-md  font-semibold"
+                  className="flex items-center px-4 py-1.5 rounded-md font-semibold text-xl"
                   text="Cancel"
                   onClick={() => setSettingsModal(false)}
                   />
                <Button 
-                  className="flex items-center px-4 py-1.5 rounded-md border border-3 font-semibold shadow-lg ml-4"
+                  className="flex items-center px-4 py-1.5 rounded-md border border-3 font-semibold shadow-lg ml-4 text-xl"
                   svg={<SaveSvg />}
                   onClick={save}
                   text="Save"

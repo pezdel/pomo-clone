@@ -10,11 +10,11 @@ export const Counter: React.FC<{
 }> = ({inc, dec, val, type}) => {
    return(
       <>
-         <div className="flex flex-col w-24 h-28 justify-between py-1.5">
-            <div className="flex justify-center text-lg border-gray-300">
+         <div className="flex flex-col w-28 h-36 justify-between py-1.5">
+            <div className="flex justify-center text-2xl border-gray-300">
                {type} 
             </div>
-            <div className="flex justify-center text-4xl">
+            <div className="flex justify-center text-5xl">
                {val}{type=="Time" ? ":00" : ""}
             </div>
             <div className="flex justify-between w-full px-2 ">
