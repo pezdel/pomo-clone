@@ -9,7 +9,7 @@ export const TaskList: React.FC = () => {
    const setEditTask = useEditStore((state) => state.setTask)
 
    return(
-      <div className="">
+      <div className="w-128">
          <Button 
             text="AddTask"
             className="flex items-center justify-center w-128 h-16 bg-dark border border-dashed rounded-md text-gray-200 text-2xl font-normal transition ease-in-out delay-150"

@@ -11,7 +11,7 @@ const Home: NextPage = () => {
    return (
       <div className={theme}>
          <div className="flex flex-col w-screen h-screen bg-primary text-white items-center transition ease-in-out delay-150">
-            <div className="flex flex-col w-screen h-full items-center bg-primary">
+            <div className="flex flex-col w-full h-full items-center bg-primary">
                <div className="flex pt-3 pb-10">
                   <Navbar />
                </div>
@@ -22,7 +22,9 @@ const Home: NextPage = () => {
                <div className='w-128'>
                   <TimerText />
                </div>
-               <TaskList />
+               <div className='bg-red-200 w-screen flex justify-center'>
+                  <TaskList />
+               </div>
             </div>
          </div>
          {editModal && <EditModal />}
