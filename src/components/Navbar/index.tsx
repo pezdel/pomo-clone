@@ -6,7 +6,7 @@ import { useMainStore } from '../../stores'
 
 export const Navbar: React.FC = () => {
    const setSettingsModal = useMainStore((state) => state.setSettingsModal)
-   const baseStyle = 'inline-block flex items-center mx-1 px-3 py-1 text-white font-light text-xs leading-tight rounded-md hover:bg-red-400 transition ease-in-out delay-150'
+   const baseStyle = 'inline-block flex items-center mx-1 px-3 py-1 text-white font-light text-sm leading-tight rounded-md hover:bg-red-400 transition ease-in-out delay-150'
 
    return (
       <>
