@@ -19,7 +19,7 @@ const Home: NextPage = () => {
                   <TimerHeader />
                   <Timer />
                </div>
-               <div className='w-128 h-screen'>
+               <div className='w-128 bg-primary'>
                   <TimerText />
                   <TaskList />
                </div>
