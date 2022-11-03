@@ -1,41 +1,24 @@
-import create from 'zustand'
 import { useMainStore } from './MainStore'
 import { useEditStore } from './EditStore'
 import { useSettingsStore } from './SettingStore'
-import { useRunningStore } from './RunningStore'
 import { useActiveStore } from './ActiveStore'
-import { useTasksSlice, TaskSlice } from './TasksStore'
-import { useIdSlice, IdSlice } from './IdStore'
+import { useTasksStore } from './TasksStore'
 import { defaultTask } from '../utils/utils'
-import { devtools, subscribeWithSelector } from 'zustand/middleware'
-import { immer } from 'zustand/middleware/immer'
+
 
 export {
    useMainStore,
    useEditStore,
    useSettingsStore,
-   useRunningStore,
-   useActiveStore
+   useActiveStore,
+   useTasksStore,
 };
 
-export type TaskType = TaskSlice & IdSlice 
-export const useTasksStore = create<TaskType>()(
-   subscribeWithSelector(
-      immer(
-         devtools(
-            (...a) => ({
-               ...useTasksSlice(...a),
-               ...useIdSlice(...a),
-            }),{name: "TaskStore"}
-         )
-      )
-   )
-)
 
 
 
 export const setActive = () => {
-   const id = useTasksStore.getState().activeId
+   const id = useMainStore.getState().activeId
    const theme = useMainStore.getState().theme
    const tasks = useTasksStore.getState().tasks
    const setActiveTask = useActiveStore.getState().setTask
@@ -64,7 +47,7 @@ export const setActive = () => {
 
 
 useSettingsStore.subscribe((state) => state.settings, setActive)
-useTasksStore.subscribe((state) => state.tasks.find(task => task.id === state.activeId), setActive)
+useTasksStore.subscribe((state) => state.tasks.find(task => task.id === useMainStore.getState().activeId), setActive)
 useMainStore.subscribe((state) => state.theme, setActive)
 
 

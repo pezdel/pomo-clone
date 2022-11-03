@@ -1,7 +1,7 @@
-import { useTasksStore } from '../../stores'
+import { useActiveStore } from '../../stores'
 
 export const TimerText = () => {
-   const task = useTasksStore((state) => state.activeTask)
+   const task = useActiveStore((state) => state.task)
 
    return(
       <div className="flex justify-center items-center pb-3 w-96  ">

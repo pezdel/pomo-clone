@@ -5,7 +5,7 @@ import shallow from 'zustand/shallow'
 
 
 const Home: NextPage = () => {
-   const [settingModal, editModal] = useMainStore((state) => [state.settingModal, state.editModal], shallow)
+   const [settingsModal, editModal] = useMainStore((state) => [state.settingsModal, state.editModal], shallow)
    const theme = useMainStore((state) => state.theme)
 
    return (
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
             </div>
          </div>
          {editModal && <EditModal />}
-         {settingModal && <SettingModal/>}
+         {settingsModal && <SettingModal/>}
       </div>
    );
 };

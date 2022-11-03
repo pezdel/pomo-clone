@@ -14,34 +14,32 @@ export interface ActiveSlice{
 
 
 export const useActiveStore = create<ActiveSlice>()(
-   subscribeWithSelector(
-      immer(
-         devtools(
-            ((set, get) => ({
-               task: {min: 30, sec: 0, count: 1, name: "", id: -1, complete: false},
-               setTask: (task) => {
-                  set({task: task})
-               },
+   immer(
+      devtools(
+         (set => ({
+            task: {min: 30, sec: 0, count: 1, name: "", id: -1, complete: false},
+            setTask: (task) => {
+               set({task: task})
+            },
 
-               decMin: () => {
-                  set(state => {
-                     state.task.sec = 59
-                     state.task.min -= 1
-                  })
-               },
-               decSec: () => {
-                  set(state => {
-                     state.task.sec -= 1
-                  })
-               },
-               incCountActive: () => {
-                  set(state => {
-                     state.task.count += 1
-                  })
-               }
-            })
-         )
-      )
+            decMin: () => {
+               set(state => {
+                  state.task.sec = 59
+                  state.task.min -= 1
+               })
+            },
+            decSec: () => {
+               set(state => {
+                  state.task.sec -= 1
+               })
+            },
+            incCountActive: () => {
+               set(state => {
+                  state.task.count += 1
+               })
+            },
+         })
+      ),{name: "Active"}
    )
 ))
 

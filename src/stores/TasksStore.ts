@@ -1,8 +1,8 @@
-import { StateCreator } from 'zustand'
+import create from 'zustand'
 import type { SubTask, TaskItem } from '../utils/types'
 import { useMainStore } from './MainStore'
-import { TaskType } from '.'
-import { useTasksStore } from '.'
+import { devtools, subscribeWithSelector } from 'zustand/middleware'
+import { immer } from 'zustand/middleware/immer'
 
 
 export interface TaskSlice {
@@ -16,138 +16,103 @@ export interface TaskSlice {
 }
 
 
-export const useTasksSlice: StateCreator<TaskType, [
-   ["zustand/subscribeWithSelector", never], 
-   ["zustand/immer", never], 
-   ["zustand/devtools", never]
-   ], [], TaskSlice> 
-= (set, get) => ({
-   tasks: [],
-   update: (id, item) => {
-      set(state => {
-         const idx = state.tasks.findIndex(task => task.id === id)
-         state.tasks[idx] = item
-      })
-   },
-   saveEdit: (id, item) => {
-      if(id == -1){
-         const id = get().id
-         set(state => {
-            state.tasks.push({
-               id: id,
-               name: item.name === 'What are you doing?' ? 'Task '+id : item.name,
-               time: {current: {min: item.min, sec: 0}, total: {min: item.min, sec: 0}},
-               count: {current: 0, total: item.count},
-               complete: false,
-               fresh: false,
+export const useTasksStore = create<TaskSlice>()(
+   immer(
+      devtools(
+         subscribeWithSelector(
+            (set => ({
+               tasks: [],
+               update: (id, item) => {
+                  set(state => {
+                     const idx = state.tasks.findIndex(task => task.id === id)
+                     state.tasks[idx] = item
+                  })
+               },
+               saveEdit: (id, item) => {
+                  if(id == -1){
+                     const id = useMainStore.getState().id
+                     const setId = useMainStore.getState().setId
+                     const setActiveId = useMainStore.getState().setActiveId
+                     set(state => {
+                        state.tasks.push({
+                           id: id,
+                           name: item.name === 'What are you doing?' ? 'Task '+id : item.name,
+                           time: {current: {min: item.min, sec: 0}, total: {min: item.min, sec: 0}},
+                           count: {current: 0, total: item.count},
+                           complete: false,
+                           fresh: false,
+                        })
+                        setActiveId(id)
+                     })
+                     setId()
+                  }else{
+                     set(state => {
+                        const task = state.tasks.find(task => task.id === id)
+                        if(task){
+                           task.name = item.name
+                           task.time.total = {min: item.min, sec: item.sec},
+                           task.time.current = {min: item.min, sec: item.sec},
+                           task.count.total = item.count
+                        }
+                     })
+                  }
+                  useMainStore.getState().setEditModal(false)
+               },
+               saveActive: (id, item) => {
+                  set(state => {
+                     const task = state.tasks.find(task => task.id === id)
+                     if(task) {
+                        task.time.current = {min: item.min, sec: item.sec},
+                        task.count.current = item.count
+                        if(task.count.current == task.count.total){
+                           task.complete = true
+                        }
+                     }
+                  })
+               },
+               resetTime: (id) => {
+                  set(state => {
+                     const task = state.tasks.find(task => task.id === id)
+                     if(task){
+                        task.time.current = task.time.total
+                     }
+                  })
+               },
+               toggleComplete: (id) => {
+                  set(state => {
+                     const task = state.tasks.find(task => task.id === id)
+                     if(task) {
+                        task.complete = !task.complete
+                        if(task.complete){
+                           task.count.current = task.count.total
+                        }else{
+                           task.count.current = 0
+                        }
+                     }
+                  })
+               },
+               remove: (id) => {
+                  set(state => {
+                     const idx = state.tasks.findIndex(task => task.id === id)
+                     state.tasks.splice(idx, 1)
+                  })
+                  useMainStore.getState().setEditModal(false)
+               },
             })
-            state.activeId = id
-         })
-         get().setId()
-      }else{
-         set(state => {
-            const task = state.tasks.find(task => task.id === id)
-            if(task){
-               task.name = item.name
-               task.time.total = {min: item.min, sec: item.sec},
-               task.time.current = {min: item.min, sec: item.sec},
-               task.count.total = item.count
-            }
-         })
-      }
-      useMainStore.getState().setEditModal(false)
-   },
-   saveActive: (id, item) => {
-      set(state => {
-         const task = state.tasks.find(task => task.id === id)
-         if(task) {
-            task.time.current = {min: item.min, sec: item.sec},
-            task.count.current = item.count
-            if(task.count.current == task.count.total){
-               task.complete = true
-            }
-         }
-      })
-   },
-   resetTime: (id) => {
-      set(state => {
-         const task = state.tasks.find(task => task.id === id)
-         if(task){
-            task.time.current = task.time.total
-         }
-      })
-   },
-   toggleComplete: (id) => {
-      set(state => {
-         const task = state.tasks.find(task => task.id === id)
-         if(task) {
-            task.complete = !task.complete
-            if(task.complete){
-               task.count.current = task.count.total
-            }else{
-               task.count.current = 0
-            }
-         }
-      })
-   },
-   remove: (id) => {
-      set(state => {
-         const idx = state.tasks.findIndex(task => task.id === id)
-         state.tasks.splice(idx, 1)
-      })
-      useMainStore.getState().setEditModal(false)
-   }
-})
+         )
+      ), {name: "Tasks"}
+   )
+))
+   
 
-
-
-   // add: (item) => {
-   //    set(state => {
-   //       state.tasks.push({
-   //          name: item.name,
-   //          id: get().id(),
-   //          time: {current: {min: item.time, sec: 0}, total: {min: item.time, sec: 0}},
-   //          count: {current: 0, total: item.count},
-   //          complete: false,
-   //          fresh: false,
-   //       })
-   //    })
-   // },
-   // remove: (id) => {
-   //    set(state => {
-   //       const idx = state.tasks.findIndex(task => task.id === id)
-   //       state.tasks.splice(idx, 1)
-   //    })
-   //    updateActiveIndex()
-   // },
-   // update: (id, item) => {
-   //    set(state => {
-   //       const task = state.tasks.find(task => task.id === id)
-   //       if(task){
-   //          task.name = item.name
-   //          task.count.total = item.count
-   //          task.time.current.min = item.time
-   //          task.time.total.min = item.time
-   //       }
-   //    })
-   // },
-   // toggleComplete: (id) => {
-   //    set(state => {
-   //       const task = state.tasks.find(task => task.id === id)
-   //       if(task){
-   //          task.complete = !task.complete
-   //       }
-   //    })
-   // },
-
-
-const updateActiveIndex = () => {
-   const tasks = useTasksStore.getState().tasks
-   if(tasks[0] != undefined){
-         useTasksStore.getState().setActiveId(tasks[0].id)
-      }
-   useMainStore.getState().setEditModal(false)
-}
+//not in use, was used to reset the active id when we remove the active task
+// const updateActiveIndex = () => {
+//    const tasks = useTasksStore.getState().tasks
+//    if(tasks[0] != undefined){
+//          useTasksStore.getState().setActiveId(tasks[0].id)
+//       }
+//    useMainStore.getState().setEditModal(false)
+// }
 
 //NON IMMER
 // export const useTasksStore = create<TaskStore>()((set, get) => ({

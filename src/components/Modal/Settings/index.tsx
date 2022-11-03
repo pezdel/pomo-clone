@@ -11,7 +11,7 @@ import shallow from 'zustand/shallow'
 export const SettingModal: React.FC = () => {
    const [settings, setSettings] = useSettingsStore((state) => [state.settings, state.setSettings], shallow)
    const [items, setItems] = useSettingsStore((state) => [state.items, state.setItems], shallow)
-   const setSettingModal = useMainStore((state) => state.setSettingModal)
+   const setSettingsModal = useMainStore((state) => state.setSettingsModal)
    
    useEffect(() => {
       setItems(settings)
@@ -23,11 +23,11 @@ export const SettingModal: React.FC = () => {
          short: items.short.value, 
          long: items.long.value
       })
-      setSettingModal(false)
+      setSettingsModal(false)
    }
 
    return(
-      <ModalTemplate close={() => setSettingModal(false)}>
+      <ModalTemplate close={() => setSettingsModal(false)}>
          <div className='w-72 bg-white rounded-md border border-2 '>
             <h1 className="bg-white shadow-lg rounded-tr-md rounded-tl-md flex justify-center items-center h-10 text-xl underline font-semibold">
                Time Settings
@@ -39,7 +39,7 @@ export const SettingModal: React.FC = () => {
                <Button 
                   className="flex items-center px-4 py-1.5 rounded-md  font-semibold"
                   text="Cancel"
-                  onClick={() => setSettingModal(false)}
+                  onClick={() => setSettingsModal(false)}
                   />
                <Button 
                   className="flex items-center px-4 py-1.5 rounded-md border border-3 font-semibold shadow-lg ml-4"

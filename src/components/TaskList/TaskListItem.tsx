@@ -1,11 +1,11 @@
 import type { TaskItem } from '../../utils/types'
 import { CheckSvg, NotCheckSvg, MenuSvg } from '../../utils/svg'
 import { Button } from '../utils'
-import { useTasksStore, useEditStore } from '../../stores'
+import { useTasksStore, useEditStore, useMainStore } from '../../stores'
 
 
 export const TaskListItem: React.FC<{item: TaskItem}> = ({item}) => {
-   const [activeId, setActiveId] = useTasksStore((state) => [state.activeId, state.setActiveId])
+   const [activeId, setActiveId] = useMainStore((state) => [state.activeId, state.setActiveId])
    const toggleComplete = useTasksStore((state) => state.toggleComplete)
    const setEditTask = useEditStore((state) => state.setTask)
 

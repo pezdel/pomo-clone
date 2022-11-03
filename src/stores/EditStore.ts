@@ -75,7 +75,7 @@ export const useEditStore = create<EditSlice>()(
                })
             },
          })
-      ),{name: "edit"}
+      ),{name: "Edit"}
    )
 ))
 

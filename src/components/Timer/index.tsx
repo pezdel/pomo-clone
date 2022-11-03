@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { Button } from '../utils'
-import { useTasksStore, useMainStore, useRunningStore, useActiveStore } from '../../stores'
+import { useTasksStore, useMainStore, useActiveStore } from '../../stores'
+import shallow from 'zustand/shallow'
 
 
 export const Timer: React.FC = () => {
-   const { running, start, stop } = useRunningStore()
+   const { running, start, stop } = useMainStore((state) => ({running: state.running, start: state.start, stop: state.stop}), shallow)
    const { task, decMin, decSec } = useActiveStore()
    const nextTheme = useMainStore((state) => state.nextTheme)
    const saveActive = useTasksStore((state) => state.saveActive)
