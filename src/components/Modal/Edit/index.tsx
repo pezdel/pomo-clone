@@ -1,5 +1,5 @@
 import React  from 'react'
-import { ModalTemplate } from '../../utils'
+import { ModalTemplate } from '../Template'
 import { useTasksStore, useMainStore, useEditStore } from '../../../stores'
 import { Button } from '../../utils'
 import { Counter } from './Counter' 
