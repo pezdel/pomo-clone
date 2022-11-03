@@ -12,7 +12,7 @@ export const TaskList: React.FC = () => {
       <>
          <Button 
             text="AddTask"
-            className="flex items-center justify-center w-full h-16 bg-dark border border-dashed rounded-md text-gray-200 text-xl font-normal transition ease-in-out delay-150"
+            className="flex items-center justify-center w-full h-16 bg-dark border border-dashed rounded-md text-gray-200 text-2xl font-normal transition ease-in-out delay-150"
             onClick={() => setEditTask(-1)} 
             svg={<AddSvg />} 
             />

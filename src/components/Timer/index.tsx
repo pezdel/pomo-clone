@@ -62,13 +62,13 @@ export const Timer: React.FC = () => {
             {!running && <Button 
                text="Start"
                onClick={start}
-               className="bg-white text-primary text-3xl h-14 w-40 rounded-md font-semibold transition ease-in-out delay-150"
+               className="bg-white text-primary text-4xl h-16 w-44 rounded-md font-semibold transition ease-in-out delay-150"
                />
             }
             {running && <Button 
                text="Stop"
                onClick={stop}
-               className="bg-dark text-white outline outline-2 text-2xl h-12 w-40 rounded-md font-semibold transition ease-in-out delay-150" 
+               className="bg-dark text-white outline outline-2 text-2xl h-16 w-44 rounded-md font-semibold transition ease-in-out delay-150" 
                />
             }
          </div>

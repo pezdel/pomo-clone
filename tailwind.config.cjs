@@ -15,7 +15,11 @@ module.exports = {
       "dark": "var(--color-dark)",
       ...colors
    },
-    extend: {},
+    extend: {
+         width: {
+            '128': '29rem',
+         }
+      },
   },
   plugins: [],
 };
