@@ -15,7 +15,7 @@ export const EditModal: React.FC = () => {
    return(
       <ModalTemplate close={setEditModal}>
          <div className='h-80 w-96 border-2 flex flex-col rounded-lg justify-between bg-white'>
-            <input placeholder={task.name} onChange={(e) => changeName(e.target.value)} className="w-full shadow-xl rounded-lg h-16 form-control block text-base text-xl " />
+            <input placeholder={task.name} onChange={(e) => changeName(e.target.value)} className="w-full shadow-xl rounded-lg h-16 form-control block  text-xl " />
 
             <div className="flex w-full justify-between px-10 ">
                <Counter type="Count" inc={incCount} dec={decCount} val={task.count} />
