@@ -1,6 +1,6 @@
 import type { TaskItem } from '../../utils/types'
 import { CheckSvg, NotCheckSvg, MenuSvg } from '../../utils/svg'
-import { Button } from '../utils'
+import { Button } from '../Button'
 import { useTasksStore, useEditStore, useMainStore } from '../../stores'
 
 

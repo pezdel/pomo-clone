@@ -3,7 +3,7 @@ import { settingsColors } from '../../../utils/utils'
 import { useMainStore, useSettingsStore } from '../../../stores'
 import { SaveSvg } from '../../../utils/svg'
 import { ModalTemplate } from '../Template'
-import { Button } from '../../utils'
+import { Button } from '../../Button'
 import { SettingItem } from './SettingItem'
 import shallow from 'zustand/shallow'
 

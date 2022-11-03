@@ -1,7 +1,7 @@
 import React  from 'react'
 import { ModalTemplate } from '../Template'
 import { useTasksStore, useMainStore, useEditStore } from '../../../stores'
-import { Button } from '../../utils'
+import { Button } from '../../Button'
 import { Counter } from './Counter' 
 import { DeleteButton } from './DeleteButton'
 

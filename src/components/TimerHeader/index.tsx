@@ -1,4 +1,4 @@
-import { Button } from "../utils"
+import { Button } from "../Button"
 import shallow from 'zustand/shallow'
 import { useMainStore } from "../../stores"
 

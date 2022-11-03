@@ -1,7 +1,7 @@
 import { DownSvg, UpSvg } from '../../../utils/svg'
 import { useSettingsStore } from '../../../stores'
 import { Item } from '../../../stores/SettingStore';
-import { Button } from '../../utils'
+import { Button } from '../../Button'
 
 interface ISettingItem {
    item: Item;

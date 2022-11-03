@@ -1,4 +1,4 @@
-import { Button } from '../../utils'
+import { Button } from '../../Button'
 import { UpSvg, DownSvg } from '../../../utils/svg'
 
 

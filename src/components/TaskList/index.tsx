@@ -1,4 +1,4 @@
-import { Button } from '../utils'
+import { Button } from '../Button'
 import { TaskListItem } from './TaskListItem'
 import { AddSvg } from '../../utils/svg'
 import { useTasksStore, useEditStore } from '../../stores'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../utils'
+import { Button } from '../Button'
 import { ReportSvg, SettingSvg, LoginSvg } from '../../utils/svg'
 import { useMainStore } from '../../stores'
 

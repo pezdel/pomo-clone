@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button } from '../utils'
+import { Button } from '../Button'
 import { useTasksStore, useMainStore, useActiveStore } from '../../stores'
 import shallow from 'zustand/shallow'
 
@@ -13,7 +13,7 @@ export const Timer: React.FC = () => {
 
    
    useEffect(() => {
-      let interval
+      let interval: any
       if(running){
          interval = setInterval(() => {
             if(task.sec === 0 && task.min === 0){
