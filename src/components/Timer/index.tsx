@@ -81,7 +81,7 @@ export const Timer: React.FC = () => {
 const TaskComplete = () => {
 
    return(
-      <div className="text-5xl font-medium flex items-center justify-center w-96 h-32 pt-10 ">
+      <div className="text-5xl font-medium flex items-center justify-center w-128 h-32 pt-10 ">
          Task Complete
       </div>
    )

@@ -1,12 +1,7 @@
-import { useEffect } from 'react'
 import { useActiveStore } from '../../stores'
 
 export const TimerText = () => {
    const task = useActiveStore((state) => state.task)
-
-   useEffect(() => {
-      console.log(task)
-   },[task])
 
    return(
       <div className="flex justify-center items-center pb-3 w-128 ">
