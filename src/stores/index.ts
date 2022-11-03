@@ -47,7 +47,8 @@ export const setActive = () => {
 
 
 useSettingsStore.subscribe((state) => state.settings, setActive)
-useTasksStore.subscribe((state) => state.tasks.find(task => task.id === useMainStore.getState().activeId), setActive)
+useTasksStore.subscribe((state) => state.tasks, setActive)
+useMainStore.subscribe((state) => state.activeId, setActive)
 useMainStore.subscribe((state) => state.theme, setActive)
 
 
