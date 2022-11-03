@@ -1,50 +1,49 @@
-import { StateCreator } from 'zustand'
-import { TaskType, useTasksStore } from '.';
-import { SubTask } from '../utils/types';
+import create from 'zustand'
+import { devtools, subscribeWithSelector } from 'zustand/middleware'
+import { immer } from 'zustand/middleware/immer'
+import type { SubTask } from '../utils/types';
 
  
-
 export interface ActiveSlice{
-   activeTask: SubTask; 
-   setActiveTask: (task: SubTask) => void;
+   task: SubTask; 
+   setTask: (task: SubTask) => void;
    decSec: () => void;
    decMin: () => void;
    incCountActive: () => void;
 }
 
 
-export const useActiveSlice: StateCreator<TaskType, [
-   ["zustand/subscribeWithSelector", never], 
-   ["zustand/immer", never], 
-   ["zustand/devtools", never]
-   ], [], ActiveSlice> 
-= (set, get) => ({
-   
-   activeTask: {min: 30, sec: 0, count: 1, name: "", id: -1, complete: false},
-   setActiveTask: (task) => {
-      set({activeTask: task})
-   },
+export const useActiveStore = create<ActiveSlice>()(
+   subscribeWithSelector(
+      immer(
+         devtools(
+            ((set, get) => ({
+               task: {min: 30, sec: 0, count: 1, name: "", id: -1, complete: false},
+               setTask: (task) => {
+                  set({task: task})
+               },
 
-   decMin: () => {
-      set(state => {
-         state.activeTask.sec = 59
-         state.activeTask.min -= 1
-      })
-   },
-   decSec: () => {
-      set(state => {
-         state.activeTask.sec -= 1
-      })
-   },
-   incCountActive: () => {
-      set(state => {
-         state.activeTask.count += 1
-      })
-   }
-})
-
-
-
+               decMin: () => {
+                  set(state => {
+                     state.task.sec = 59
+                     state.task.min -= 1
+                  })
+               },
+               decSec: () => {
+                  set(state => {
+                     state.task.sec -= 1
+                  })
+               },
+               incCountActive: () => {
+                  set(state => {
+                     state.task.count += 1
+                  })
+               }
+            })
+         )
+      )
+   )
+))
 
 
 

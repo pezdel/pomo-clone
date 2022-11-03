@@ -4,7 +4,6 @@ import { useTasksStore } from './'
 import { editDefault } from '../utils/utils'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
-
 import type { SubTask, TaskItem } from '../utils/types';
 
 

@@ -14,7 +14,7 @@ export const useIdSlice: StateCreator<TaskType, [
    ["zustand/immer", never], 
    ["zustand/devtools", never]
    ], [], IdSlice>
-= (set, get) => ({
+= (set) => ({
    id: 0,
    setId: () => {
       set(state => {

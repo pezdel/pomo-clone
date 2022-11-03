@@ -1,17 +1,14 @@
+import React, { useEffect } from 'react'
 import { Button } from '../utils'
-import { useEffect, useState } from 'react'
-import { useTasksStore, useMainStore } from '../../stores'
-import shallow from 'zustand/shallow'
+import { useTasksStore, useMainStore, useRunningStore, useActiveStore } from '../../stores'
 
 
 export const Timer: React.FC = () => {
-   const task = useTasksStore((state) => state.activeTask)
-   const decMin = useTasksStore((state) => state.decMin)
-   const decSec = useTasksStore((state) => state.decSec)
-   const [running, start, stop] = useTasksStore((state) => [state.running, state.start, state.stop], shallow)
+   const { running, start, stop } = useRunningStore()
+   const { task, decMin, decSec } = useActiveStore()
+   const nextTheme = useMainStore((state) => state.nextTheme)
    const saveActive = useTasksStore((state) => state.saveActive)
    const resetTime = useTasksStore((state) => state.resetTime)
-   const nextTheme = useMainStore((state) => state.nextTheme)
 
    
    useEffect(() => {

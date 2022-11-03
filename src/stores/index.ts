@@ -1,33 +1,31 @@
 import create from 'zustand'
 import { useMainStore } from './MainStore'
 import { useEditStore } from './EditStore'
-import { useTasksSlice, TaskSlice } from './TasksStore'
-import { useActiveSlice, ActiveSlice } from './ActiveStore'
-import { useIdSlice, IdSlice } from './IdStore'
-import { useRunningSlice, RunningSlice } from './RunningStore'
-import { immer } from 'zustand/middleware/immer'
-import { devtools, subscribeWithSelector } from 'zustand/middleware'
-import { defaultTask } from '../utils/utils'
 import { useSettingsStore } from './SettingStore'
+import { useRunningStore } from './RunningStore'
+import { useActiveStore } from './ActiveStore'
+import { useTasksSlice, TaskSlice } from './TasksStore'
+import { useIdSlice, IdSlice } from './IdStore'
+import { defaultTask } from '../utils/utils'
+import { devtools, subscribeWithSelector } from 'zustand/middleware'
+import { immer } from 'zustand/middleware/immer'
 
 export {
    useMainStore,
    useEditStore,
    useSettingsStore,
+   useRunningStore,
+   useActiveStore
 };
 
-export type TaskType = TaskSlice & ActiveSlice & IdSlice & RunningSlice
-
-
+export type TaskType = TaskSlice & IdSlice 
 export const useTasksStore = create<TaskType>()(
    subscribeWithSelector(
       immer(
          devtools(
             (...a) => ({
                ...useTasksSlice(...a),
-               ...useActiveSlice(...a),
                ...useIdSlice(...a),
-               ...useRunningSlice(...a),
             }),{name: "TaskStore"}
          )
       )
@@ -40,7 +38,7 @@ export const setActive = () => {
    const id = useTasksStore.getState().activeId
    const theme = useMainStore.getState().theme
    const tasks = useTasksStore.getState().tasks
-   const setActiveTask = useTasksStore.getState().setActiveTask
+   const setActiveTask = useActiveStore.getState().setTask
    const settings = useSettingsStore.getState().settings
    
    if(theme === 'theme-red'){

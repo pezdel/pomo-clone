@@ -1,5 +1,5 @@
-import { DownSvg, UpSvg, SaveSvg } from '../../../utils/svg'
-import { useSettingsStore } from '../../../stores/SettingStore'
+import { DownSvg, UpSvg } from '../../../utils/svg'
+import { useSettingsStore } from '../../../stores'
 import { Item } from '../../../stores/SettingStore';
 import { Button } from '../../utils'
 
