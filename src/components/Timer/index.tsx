@@ -38,6 +38,7 @@ export const Timer: React.FC = () => {
             saveActive(task.id, {...task, count: task.count + 1})
             resetTime(task.id)
             nextTheme()
+            alert("Task Done!")
          }else{
             saveActive(task.id, task)
          }
